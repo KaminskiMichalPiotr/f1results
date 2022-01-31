@@ -1,0 +1,23 @@
+<nz-table #basicTable [nzData]="dataSet"
+          nzShowPagination="false">
+  <thead>
+  <tr>
+    <th>Position</th>
+    <th>Driver</th>
+    <ng-container *ngFor="let race of basicTable.data[0].races">
+      <th>{{race.locationTag}}</th>
+    </ng-container>
+    <th>Total Points</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of basicTable.data">
+    <td>{{data.position}}</td>
+    <td>{{data.driver}}</td>
+    <ng-container *ngFor="let race of data.races">
+      <th>{{race.position}}</th>
+    </ng-container>
+    <td>{{data.totalPoints}}</td>
+  </tr>
+  </tbody>
+</nz-table>
