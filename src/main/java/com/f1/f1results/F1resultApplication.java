@@ -22,10 +22,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.f1.f1results.objects.raceresult.PointsScoringSystem.getPointsScoredByPosition;
+import static com.f1.f1results.objects.driverresult.PointsScoringSystem.getPointsScoredByPosition;
 
 @SpringBootApplication
 public class F1resultApplication {
@@ -64,17 +65,19 @@ public class F1resultApplication {
 	CommandLineRunner commandLineRunner() {
 		return args -> {
 			Calendar calendar = new Calendar();
-			Location location = new Location(null, "London", "ENG", "England", null);
-			Location location2 = new Location(null, "Warsaw", "POL", "Poland", null);
-			Driver driver = new Driver(null, "Max Verstappen", "05-05-1985", "Dutch");
-			Driver driver2 = new Driver(null, "Charles Leclerc", "06-07-2002", "Monegasque");
+			Location location = new Location(null, "London", "ENG", "England", new HashSet<>());
+			Location location2 = new Location(null, "Warsaw", "POL", "Poland", new HashSet<>());
+			Driver driver = new Driver(null, "Max Verstappen", "05-05-1985", "Dutch", null);
+			Driver driver2 = new Driver(null, "Charles Leclerc", "06-07-2002", "Monegasque", null);
 			Team team = new Team(null, "Alpha Tauri", "ALF", Set.of(driver, driver2), "Italy");
 
-			location = locationService.save(location);
-			location2 = locationService.save(location2);
+			//location = locationService.save(location);
+			//location2 = locationService.save(location2);
 
-			calendar.setLocations(List.of(location, location2));
-			calendarService.save(calendar);
+			calendar.addLocation(location);
+			calendar.addLocation(location2);
+			//calendar.setLocations(List.of(location, location2));
+			calendar = calendarService.save(calendar);
 
 			driver = driverService.save(driver);
 			driver2 = driverService.save(driver2);
@@ -91,11 +94,12 @@ public class F1resultApplication {
 			RaceResult raceResult = new RaceResult(null, List.of(driverResult, driverResult2));
 			raceResult = raceResultService.save(raceResult);
 
-			RaceEvent raceEvent = new RaceEvent(null, location, raceResult);
-			raceEvent = raceEventService.save(raceEvent);
 
-			Season season = new Season(null, List.of(raceEvent), calendar);
+			Season season = new Season(null, null, calendar, 2020);
 			season = seasonService.save(season);
+
+			RaceEvent raceEvent = new RaceEvent(null, location, raceResult, season);
+			raceEvent = raceEventService.save(raceEvent);
 
 
 		};

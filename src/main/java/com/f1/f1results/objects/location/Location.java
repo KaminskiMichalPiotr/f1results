@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -21,14 +23,22 @@ public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false)
     private Long id;
-    @Column
+
+    @Column(nullable = false)
+    @NotBlank(message = "Location cannot be empty!")
     private String location;
-    @Column
+
+    @Column(nullable = false)
+    @NotBlank(message = "Location tag cannot be empty!")
     private String locationTag;
-    @Column
+
+    @Column(nullable = false)
+    @NotBlank(message = "Country cannot be empty!")
     private String country;
+
     @ManyToMany(mappedBy = "locations")
-    private Set<Calendar> locationExistingInCalendars;
+    private Set<Calendar> locationExistingInCalendars = new HashSet<>();
 
 }

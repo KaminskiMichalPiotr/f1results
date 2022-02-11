@@ -15,12 +15,13 @@ public class CalendarService {
         this.calendarRepository = calendarRepository;
     }
 
-    public void save(Calendar calendar) {
-        calendarRepository.save(calendar);
+    public Calendar save(Calendar calendar) {
+        return calendarRepository.save(calendar);
     }
 
     public List<Calendar> getAllCalendars() {
         return calendarRepository.findAll();
     }
+
 
 }

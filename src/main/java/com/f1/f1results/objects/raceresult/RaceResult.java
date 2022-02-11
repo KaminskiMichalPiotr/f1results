@@ -19,9 +19,15 @@ public class RaceResult {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false)
     private Long id;
 
     @OneToMany
+    @JoinColumn(
+            name = "race_result_id",
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(name = "race_result_id")
+    )
     private List<DriverResult> driverResults;
 
 }

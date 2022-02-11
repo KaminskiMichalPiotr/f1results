@@ -1,15 +1,19 @@
 package com.f1.f1results.objects.driver;
 
-import lombok.*;
+import com.f1.f1results.objects.team.Team;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.util.Set;
 
 
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "Driver")
@@ -18,18 +22,25 @@ public class Driver {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false)
     private Long id;
+
     @Column
     @NotBlank(message = "Please provide driver name and surname")
     private String driver;
+
     @Column
     @NotBlank(message = "Date of birth must be in following format DD-MM-YYYY")
     @Pattern(regexp = "[0-3][0-9]-[0-1][0-9]-[1-2][0-9][0-9][0-9]",
             message = "Date of birth must be in following format DD-MM-YYYY")
     private String dateOfBirth;
+
     @Column
     @NotBlank(message = "Nationality cannot be empty")
     private String nationality;
+
+    @ManyToMany(mappedBy = "drivers")
+    private Set<Team> teams;
 
     @Override
     public boolean equals(Object o) {

@@ -1,4 +1,4 @@
-package com.f1.f1results.objects.raceresult;
+package com.f1.f1results.objects.driverresult;
 
 public class PointsScoringSystem {
 
