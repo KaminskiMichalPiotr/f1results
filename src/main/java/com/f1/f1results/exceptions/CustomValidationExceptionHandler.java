@@ -1,5 +1,6 @@
 package com.f1.f1results.exceptions;
 
+import lombok.NonNull;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,9 +22,9 @@ public class CustomValidationExceptionHandler extends ResponseEntityExceptionHan
 
     // error handle for @Valid
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-                                                                  HttpHeaders headers,
-                                                                  HttpStatus status, WebRequest request) {
+    protected @NonNull ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+                                                                           @NonNull HttpHeaders headers,
+                                                                           HttpStatus status, @NonNull WebRequest request) {
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", new Date());

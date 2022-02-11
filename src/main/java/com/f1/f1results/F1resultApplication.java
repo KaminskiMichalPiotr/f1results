@@ -1,21 +1,21 @@
 package com.f1.f1results;
 
-import com.f1.f1results.calendar.Calendar;
-import com.f1.f1results.calendar.CalendarService;
-import com.f1.f1results.driver.Driver;
-import com.f1.f1results.driver.DriverService;
-import com.f1.f1results.driverresult.DriverResult;
-import com.f1.f1results.driverresult.DriverResultService;
-import com.f1.f1results.location.Location;
-import com.f1.f1results.location.LocationService;
-import com.f1.f1results.raceevent.RaceEvent;
-import com.f1.f1results.raceevent.RaceEventService;
-import com.f1.f1results.raceresult.RaceResult;
-import com.f1.f1results.raceresult.RaceResultService;
-import com.f1.f1results.season.Season;
-import com.f1.f1results.season.SeasonService;
-import com.f1.f1results.team.Team;
-import com.f1.f1results.team.TeamService;
+import com.f1.f1results.objects.calendar.Calendar;
+import com.f1.f1results.objects.calendar.CalendarService;
+import com.f1.f1results.objects.driver.Driver;
+import com.f1.f1results.objects.driver.DriverService;
+import com.f1.f1results.objects.driverresult.DriverResult;
+import com.f1.f1results.objects.driverresult.DriverResultService;
+import com.f1.f1results.objects.location.Location;
+import com.f1.f1results.objects.location.LocationService;
+import com.f1.f1results.objects.raceevent.RaceEvent;
+import com.f1.f1results.objects.raceevent.RaceEventService;
+import com.f1.f1results.objects.raceresult.RaceResult;
+import com.f1.f1results.objects.raceresult.RaceResultService;
+import com.f1.f1results.objects.season.Season;
+import com.f1.f1results.objects.season.SeasonService;
+import com.f1.f1results.objects.team.Team;
+import com.f1.f1results.objects.team.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Bean;
 import java.util.List;
 import java.util.Set;
 
-import static com.f1.f1results.raceresult.PointsScoringSystem.getPointsScoredByPosition;
+import static com.f1.f1results.objects.raceresult.PointsScoringSystem.getPointsScoredByPosition;
 
 @SpringBootApplication
 public class F1resultApplication {
