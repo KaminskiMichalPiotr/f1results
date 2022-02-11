@@ -21,14 +21,25 @@ public class RaceEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
+
+    @ManyToOne(cascade = {
+            CascadeType.MERGE
+    })
+    @JoinColumn(
+            name = "location_id",
+            referencedColumnName = "id"
+    )
     private Location location;
-    @OneToOne
+
+    @OneToOne(cascade = {
+            CascadeType.MERGE
+    })
     @JoinColumn(
             name = "race_result_id",
             referencedColumnName = "id"
     )
     private RaceResult raceResult;
+
     //@Column
     //private Season season;
 

@@ -15,7 +15,7 @@ public class CalendarService {
         this.calendarRepository = calendarRepository;
     }
 
-    public void saveCalendar(Calendar calendar) {
+    public void save(Calendar calendar) {
         calendarRepository.save(calendar);
     }
 
