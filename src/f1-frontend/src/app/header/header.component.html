@@ -1,0 +1,19 @@
+<div class="app-header">
+  <ul nz-menu nzMode="horizontal" nzTheme="dark">
+      <span (click)="onClick()" class="header-trigger">
+                <i [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+                   class="trigger"
+                   nz-icon
+                ></i>
+      </span>
+    <!--    <ng-container *ngIf="isAdmin">-->
+    <li nz-menu-item routerLink="/manage/driver">Manage Driver</li>
+    <li nz-menu-item routerLink="/manage/team">Manage Team</li>
+    <li nz-menu-item routerLink="/manage/season">Manage Season</li>
+    <li nz-menu-item>Manage Locations</li>
+    <li nz-menu-item>Manage Season</li>
+    <!--    </ng-container>-->
+
+  </ul>
+  <router-outlet name="admin-panel"></router-outlet>
+</div>
