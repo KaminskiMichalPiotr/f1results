@@ -1,5 +1,6 @@
 package com.f1.f1results.objects.driver;
 
+import com.f1.f1results.objects.team.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +15,13 @@ public class DriverController {
 
 
     DriverService driverService;
+    TeamService teamService;
 
     @Autowired
-    public DriverController(DriverService driverService) {
+    public DriverController(DriverService driverService, TeamService teamService) {
         this.driverService = driverService;
+        this.teamService = teamService;
     }
-
 
     @GetMapping("/get")
     public ResponseEntity<List<Driver>> getDrivers() {
@@ -33,6 +35,8 @@ public class DriverController {
 
     @PostMapping
     public ResponseEntity<Driver> saveDriver(@Valid @RequestBody Driver driver) {
-        return ResponseEntity.status(HttpStatus.OK).body(driverService.save(driver));
+        Driver save = driverService.save(driver);
+        teamService.addDriverToTeams(save, driver.getTeams());
+        return ResponseEntity.status(HttpStatus.OK).body(save);
     }
 }

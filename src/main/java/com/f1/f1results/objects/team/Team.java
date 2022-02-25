@@ -1,6 +1,7 @@
 package com.f1.f1results.objects.team;
 
 import com.f1.f1results.objects.driver.Driver;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -24,11 +26,11 @@ public class Team {
     @Column(updatable = false)
     private Long id;
 
-    @Column
+    @Column(unique = true)
     @NotBlank(message = "Team name cannot be empty!")
     private String teamName;
 
-    @Column
+    @Column(unique = true)
     @NotBlank(message = "Team tag cannot be empty!")
     private String teamTag;
 
@@ -44,11 +46,28 @@ public class Team {
                     foreignKey = @ForeignKey(name = "driver_fk")
             )
     )
+    @JsonIgnore
     private Set<Driver> drivers = new HashSet<>();
 
     @Column
     @NotBlank(message = "Country cannot be empty!")
     private String country;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Team team = (Team) o;
+        return Objects.equals(teamName, team.teamName) && Objects.equals(teamTag, team.teamTag) && Objects.equals(country, team.country);
+    }
+
+    public void addDriver(Driver driver) {
+        getDrivers().add(driver);
+    }
+
+    public void removeDriver(Driver driver) {
+        getDrivers().remove(driver);
+    }
 
 }
 

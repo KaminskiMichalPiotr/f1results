@@ -1,55 +1,19 @@
-<nz-layout class="app-layout">
+<nz-layout class="layout">
   <nz-sider class="menu-sidebar"
             nzCollapsible
             nzWidth="256px"
             nzBreakpoint="md"
             [(nzCollapsed)]="isCollapsed"
+            (nzCollapsedChange)="collapse()"
             [nzTrigger]="null">
-    <div class="sidebar-logo">
-      <a href="" target="_blank">
-        <img src="https://www.f1-fansite.com/wp-content/uploads/2020/12/Alpine-logo-1440x900-1.png" alt="logo">
-        <h1>F1 race results</h1>
-      </a>
-    </div>
-    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-      <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
-        <ul>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/welcome">Welcome</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a>Monitor</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a>Workplace</a>
-          </li>
-        </ul>
-      </li>
-      <li nz-submenu nzOpen nzTitle="Form" nzIcon="form">
-        <ul>
-          <li nz-menu-item nzMatchRouter>
-            <a>Basic Form</a>
-          </li>
-        </ul>
-      </li>
-    </ul>
+    <app-sider></app-sider>
   </nz-sider>
   <nz-layout>
-    <nz-header>
-      <div class="app-header">
-        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-            <i class="trigger"
-               nz-icon
-               [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-            ></i>
-        </span>
-      </div>
+    <nz-header [hidden]="isCollapsed">
+      <app-header></app-header>
     </nz-header>
     <nz-content>
-      <div class="inner-content">
-        <app-season-result></app-season-result>
-        <router-outlet></router-outlet>
-      </div>
+      <router-outlet></router-outlet>
     </nz-content>
   </nz-layout>
 </nz-layout>

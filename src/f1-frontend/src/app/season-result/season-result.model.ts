@@ -1,4 +1,4 @@
-export interface SeasonResult {
+export interface SeasonResultModel {
   position: number;
   driver: string;
   races: Race[];

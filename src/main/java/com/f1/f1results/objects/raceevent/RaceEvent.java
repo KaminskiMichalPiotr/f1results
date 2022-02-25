@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
@@ -53,6 +56,16 @@ public class RaceEvent {
             foreignKey = @ForeignKey(name = "season_fk")
     )
     private Season season;
+
+    @Column
+    @NotBlank(message = "Date of reace must be in following format DD-MM-YYYY")
+    @Pattern(regexp = "[0-3][0-9]-[0-1][0-9]-[1-2][0-9][0-9][0-9]",
+            message = "Date of race must be in following format DD-MM-YYYY")
+    private String dateOfRace;
+
+    @Column
+    @NotNull(message = "Index of the race event must be provided")
+    private int index;
 
 
 }

@@ -98,7 +98,7 @@ public class F1resultApplication {
 			Season season = new Season(null, null, calendar, 2020);
 			season = seasonService.save(season);
 
-			RaceEvent raceEvent = new RaceEvent(null, location, raceResult, season);
+			RaceEvent raceEvent = new RaceEvent(null, location, raceResult, season, "25-05-2021", 1);
 			raceEvent = raceEventService.save(raceEvent);
 
 
