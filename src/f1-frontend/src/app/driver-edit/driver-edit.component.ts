@@ -3,6 +3,7 @@ import {DriverService} from "../services/driver.service";
 import {Driver} from "../models/driver.model";
 import {DriverModalService} from "../services/driver-modal.service";
 import {Team} from "../models/team.model";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-driver-edit',
@@ -11,12 +12,11 @@ import {Team} from "../models/team.model";
   providers: [DriverService, DriverModalService]
 })
 export class DriverEditComponent implements OnInit {
-  isVisible: boolean = false;
-  selectedDriver!: Driver;
 
   drivers: Driver[] = [];
 
-  constructor(private driverService: DriverService, private driverModalService: DriverModalService) {
+  constructor(private driverService: DriverService, private driverModalService: DriverModalService,
+              private router: Router, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
@@ -25,28 +25,13 @@ export class DriverEditComponent implements OnInit {
     })
   }
 
-  showModal(): void {
-    this.isVisible = true;
+  openEditModal(data: Driver) {
+    this.driverModalService.selectedDriver.next(data);
+    this.router.navigate(['edit'], {relativeTo: this.route})
   }
 
-  handleOk(): void {
-    console.log('Button ok clicked!');
-    this.isVisible = false;
-  }
-
-  handleCancel(): void {
-    console.log('Button cancel clicked!');
-    this.isVisible = false;
-  }
-
-  openModal(data: Driver) {
-    this.selectedDriver = data;
-    this.driverModalService.modalOpen.next(true);
-  }
-
-  openEmptyModal() {
-    this.driverModalService.modalReset.next(true);
-    this.driverModalService.modalOpen.next(true);
+  openAddModal() {
+    this.router.navigate(['add'], {relativeTo: this.route})
   }
 
   teamsName(teams: Team[]) {
@@ -54,4 +39,5 @@ export class DriverEditComponent implements OnInit {
       return team.teamName
     }).toString();
   }
+
 }

@@ -30,6 +30,8 @@ import {DriverEditorModalComponent} from './driver-edit/driver-editor-modal/driv
 import {NzSelectModule} from "ng-zorro-antd/select";
 import {NzFormModule} from "ng-zorro-antd/form";
 import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
+import {TeamEditorModalComponent} from './team-edit/team-editor-modal/team-editor-modal.component';
+import {NzInputModule} from "ng-zorro-antd/input";
 
 
 registerLocaleData(en);
@@ -46,6 +48,7 @@ registerLocaleData(en);
     NotFoundComponent,
     HomeComponent,
     DriverEditorModalComponent,
+    TeamEditorModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,7 +68,8 @@ registerLocaleData(en);
     NzSelectModule,
     NzFormModule,
     NzDatePickerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NzInputModule
   ],
   providers: [{provide: NZ_I18N, useValue: en_US}],
   bootstrap: [AppComponent]

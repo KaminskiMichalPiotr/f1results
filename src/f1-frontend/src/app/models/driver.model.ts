@@ -7,3 +7,7 @@ export interface Driver {
   dateOfBirth: string;
   teams: Team[];
 }
+
+export function emptyDriver(): Driver {
+  return {id: null, driver: '', nationality: '', dateOfBirth: '', teams: []}
+}
