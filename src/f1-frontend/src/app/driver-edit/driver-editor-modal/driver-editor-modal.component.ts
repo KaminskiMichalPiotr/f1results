@@ -45,7 +45,8 @@ export class DriverEditorModalComponent implements OnInit {
     let date = formatDate(this.form.get('dateOfBirth').value, 'dd-MM-yyyy', 'en')
     let driver: Driver = {
       driver: this.form.get('driver').value,
-      id: this.driver.id, dateOfBirth: date,
+      id: this.driver.id,
+      dateOfBirth: date,
       nationality: this.form.get('nationality').value,
       teams: this.listOfTeams.filter(team => this.form.get('teams').value.includes(team.id))
     }

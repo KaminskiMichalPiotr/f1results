@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Driver} from "../models/driver.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Team} from "../models/team.model";
 import {TeamService} from "../services/team.service";
@@ -31,12 +30,6 @@ export class TeamEditComponent implements OnInit {
 
   openAddModal() {
     this.router.navigate(['add'], {relativeTo: this.route})
-  }
-
-  driversNames(drivers: Driver[]) {
-    return drivers.map(driver => {
-      return driver.driver
-    }).toString();
   }
 
 }

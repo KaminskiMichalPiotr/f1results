@@ -9,8 +9,12 @@ import java.util.Optional;
 @Service
 public class LocationService {
 
-    @Autowired
     LocationRepository locationRepository;
+
+    @Autowired
+    public LocationService(LocationRepository locationRepository) {
+        this.locationRepository = locationRepository;
+    }
 
     public Location save(Location location) {
         return locationRepository.save(location);
@@ -20,7 +24,6 @@ public class LocationService {
         return locationRepository.saveAll(locations);
     }
 
-
     public Optional<Location> findById(Long id) {
         return locationRepository.findById(id);
     }
@@ -29,4 +32,7 @@ public class LocationService {
         return locationRepository.findByLocationTag(tag);
     }
 
+    public List<Location> getLocations() {
+        return locationRepository.findAll();
+    }
 }

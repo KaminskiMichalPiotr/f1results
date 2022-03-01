@@ -1,7 +1,5 @@
 package com.f1.f1results;
 
-import com.f1.f1results.objects.calendar.Calendar;
-import com.f1.f1results.objects.calendar.CalendarService;
 import com.f1.f1results.objects.driver.Driver;
 import com.f1.f1results.objects.driver.DriverService;
 import com.f1.f1results.objects.driverresult.DriverResult;
@@ -22,7 +20,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -36,7 +33,6 @@ public class F1resultApplication {
 	}
 
 
-	CalendarService calendarService;
 	LocationService locationService;
 	DriverService driverService;
 	TeamService teamService;
@@ -46,11 +42,10 @@ public class F1resultApplication {
 	SeasonService seasonService;
 
 	@Autowired
-	public F1resultApplication(CalendarService calendarService, LocationService locationService,
+	public F1resultApplication(LocationService locationService,
 							   DriverService driverService, TeamService teamService,
 							   RaceResultService raceResultService, DriverResultService driverResultService,
 							   RaceEventService raceEventService, SeasonService seasonService) {
-		this.calendarService = calendarService;
 		this.locationService = locationService;
 		this.driverService = driverService;
 		this.teamService = teamService;
@@ -64,20 +59,13 @@ public class F1resultApplication {
 	@Bean
 	CommandLineRunner commandLineRunner() {
 		return args -> {
-			Calendar calendar = new Calendar();
-			Location location = new Location(null, "London", "ENG", "England", new HashSet<>());
-			Location location2 = new Location(null, "Warsaw", "POL", "Poland", new HashSet<>());
+			Location location = new Location(null, "London", "ENG", "England");
+			Location location2 = new Location(null, "Warsaw", "POL", "Poland");
 			Driver driver = new Driver(null, "Max Verstappen", "05-05-1985", "Dutch", null);
 			Driver driver2 = new Driver(null, "Charles Leclerc", "06-07-2002", "Monegasque", null);
 			Team team = new Team(null, "Alpha Tauri", "ALF", Set.of(driver, driver2), "Italy");
-
-			//location = locationService.save(location);
-			//location2 = locationService.save(location2);
-
-			calendar.addLocation(location);
-			calendar.addLocation(location2);
-			//calendar.setLocations(List.of(location, location2));
-			calendar = calendarService.save(calendar);
+			location = locationService.save(location);
+			location2 = locationService.save(location2);
 
 			driver = driverService.save(driver);
 			driver2 = driverService.save(driver2);
@@ -95,7 +83,7 @@ public class F1resultApplication {
 			raceResult = raceResultService.save(raceResult);
 
 
-			Season season = new Season(null, null, calendar, 2020);
+			Season season = new Season(null, null, 2020);
 			season = seasonService.save(season);
 
 			RaceEvent raceEvent = new RaceEvent(null, location, raceResult, season, "25-05-2021", 1);

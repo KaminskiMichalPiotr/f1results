@@ -1,0 +1,27 @@
+<router-outlet></router-outlet>
+
+<button (click)="openAddModal()" nz-button nzType="primary" style="float: right">
+  <i nz-icon nzType="plus"></i>
+  Add
+</button>
+<nz-divider></nz-divider>
+<nz-table #basicTable [nzData]="locations"
+          [nzPageSize]="10"
+          nzShowPagination="true"
+          nzSize="default">
+  <thead>
+  <tr>
+    <th>Location</th>
+    <th>Tag</th>
+    <th>Country</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr (click)="openEditModal(data)" *ngFor="let data of basicTable.data" style="cursor: pointer">
+    <td>{{data.location}}</td>
+    <td>{{data.locationTag}}</td>
+    <td>{{data.country}}</td>
+  </tr>
+  </tbody>
+</nz-table>
+

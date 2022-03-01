@@ -13,7 +13,7 @@ export class DriverService {
   }
 
   getDrivers(): Observable<Driver[]> {
-    return this.http.get<Driver[]>("http://localhost:8080/driver/get");
+    return this.http.get<Driver[]>(PATH + "driver/get");
   }
 
   saveDriver(driver: Driver): Observable<Driver> {

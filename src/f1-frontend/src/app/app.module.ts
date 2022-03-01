@@ -32,6 +32,8 @@ import {NzFormModule} from "ng-zorro-antd/form";
 import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
 import {TeamEditorModalComponent} from './team-edit/team-editor-modal/team-editor-modal.component';
 import {NzInputModule} from "ng-zorro-antd/input";
+import {LocationEditComponent} from './location-edit/location-edit.component';
+import {LocationEditorModalComponent} from './location-edit/location-editor-modal/location-editor-modal.component';
 
 
 registerLocaleData(en);
@@ -49,6 +51,8 @@ registerLocaleData(en);
     HomeComponent,
     DriverEditorModalComponent,
     TeamEditorModalComponent,
+    LocationEditComponent,
+    LocationEditorModalComponent,
   ],
   imports: [
     BrowserModule,

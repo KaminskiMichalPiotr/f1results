@@ -1,6 +1,5 @@
 package com.f1.f1results.objects.season;
 
-import com.f1.f1results.objects.calendar.Calendar;
 import com.f1.f1results.objects.raceevent.RaceEvent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,13 +28,6 @@ public class Season {
     @OneToMany(mappedBy = "season")
     private List<RaceEvent> raceEvents;
 
-    @OneToOne
-    @JoinColumn(
-            name = "calendar_id",
-            referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "calendar_fk")
-    )
-    private Calendar calendar;
 
     @Column(nullable = false)
     @NotNull(message = "Please provide valid season")
