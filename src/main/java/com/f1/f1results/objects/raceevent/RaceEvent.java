@@ -3,6 +3,7 @@ package com.f1.f1results.objects.raceevent;
 import com.f1.f1results.objects.location.Location;
 import com.f1.f1results.objects.raceresult.RaceResult;
 import com.f1.f1results.objects.season.Season;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -55,6 +56,7 @@ public class RaceEvent {
             referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "season_fk")
     )
+    @JsonIgnore
     private Season season;
 
     @Column

@@ -3,11 +3,9 @@ package com.f1.f1results.objects.season;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,14 +21,20 @@ public class SeasonController {
         this.seasonService = seasonService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<Season>> getSeasons() {
+        return ResponseEntity.ok(seasonService.findAll());
+    }
+
+    @PostMapping
+    public ResponseEntity<Season> saveSeason(@Valid @RequestBody Season season) {
+        return ResponseEntity.ok(seasonService.save(season));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Season> getSeasonById(@PathVariable(value = "id") Long id) {
         Optional<Season> season = seasonService.findById(id);
-        if (season.isPresent()) {
-            return ResponseEntity.ok(season.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return season.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping(path = "seasonsYears")

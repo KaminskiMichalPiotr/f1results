@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {emptyTeam, Team} from "../../models/team.model";
+import {emptyTeam, Team} from "../../shared/models/team.model";
 import {Subscription} from "rxjs";
 import {FormBuilder, Validators} from "@angular/forms";
-import {TeamService} from "../../services/team.service";
+import {TeamService} from "../../services/crud/team.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {noWhitespaceValidator} from "../../shared/whitespace.validator";
-import {TeamModalService} from "../../services/team-modal.service";
+import {TeamModalService} from "../../services/modal/team-modal.service";
 
 @Component({
   selector: 'app-team-editor-modal',
@@ -14,6 +14,7 @@ import {TeamModalService} from "../../services/team-modal.service";
 })
 export class TeamEditorModalComponent implements OnInit {
 
+  subs: Subscription[] = []
   isVisible: boolean = true;
 
   team!: Team;
@@ -28,7 +29,7 @@ export class TeamEditorModalComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     if (this.router.url.includes('edit')) {
-      this.sub = this.teamModalService.selectedTeam.subscribe(data => this.populateForm(data))
+      this.sub = this.teamModalService.selected.subscribe(data => this.populateForm(data))
     } else {
       this.populateForm(emptyTeam())
     }

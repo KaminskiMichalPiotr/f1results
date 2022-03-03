@@ -1,6 +1,7 @@
 package com.f1.f1results.objects.season;
 
 import com.f1.f1results.objects.raceevent.RaceEvent;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "Season")
-@Table(name = "season")
+@Table(name = "season", uniqueConstraints = @UniqueConstraint(columnNames = "season_year", name = "season_year_unique"))
 public class Season {
 
     @Id
@@ -26,10 +27,10 @@ public class Season {
     private Long id;
 
     @OneToMany(mappedBy = "season")
+    @JsonIgnore
     private List<RaceEvent> raceEvents;
 
-
-    @Column(nullable = false)
+    @Column(nullable = false, name = "season_year")
     @NotNull(message = "Please provide valid season")
     @Min(1950)
     @Max(2050)

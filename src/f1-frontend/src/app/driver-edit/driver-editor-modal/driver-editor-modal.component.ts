@@ -1,15 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
-import {Team} from "../../models/team.model";
+import {Team} from "../../shared/models/team.model";
 import {noWhitespaceValidator} from "../../shared/whitespace.validator";
-import {Driver, emptyDriver} from "../../models/driver.model";
-import {DriverModalService} from "../../services/driver-modal.service";
+import {Driver, emptyDriver} from "../../shared/models/driver.model";
+import {DriverModalService} from "../../services/modal/driver-modal.service";
 import {formatDate} from '@angular/common';
 import {convertToDate} from "../../shared/date.converter";
-import {TeamService} from "../../services/team.service";
-import {DriverService} from "../../services/driver.service";
+import {TeamService} from "../../services/crud/team.service";
+import {DriverService} from "../../services/crud/driver.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs";
+import {NotificationService} from "../../services/notification.service";
 
 @Component({
   selector: 'app-driver-editor-modal',
@@ -17,47 +18,51 @@ import {Subscription} from "rxjs";
   styleUrls: ['./driver-editor-modal.component.css'],
   providers: [TeamService]
 })
-export class DriverEditorModalComponent implements OnInit {
+export class DriverEditorModalComponent implements OnInit, OnDestroy {
 
-  isVisible: boolean = true;
+  isVisible = true;
+  subs: Subscription[] = []
 
   driver!: Driver;
   listOfTeams: Array<Team> = [];
   form: any;
-  private sub?: Subscription = undefined;
 
   constructor(private fb: FormBuilder, private driverModalService: DriverModalService,
               private teamService: TeamService, private driverService: DriverService,
-              private router: Router, private route: ActivatedRoute) {
+              private router: Router, private route: ActivatedRoute,
+              private notificationService: NotificationService) {
   }
 
   ngOnInit(): void {
     this.loadTeams();
     this.initForm();
     if (this.router.url.includes('edit')) {
-      this.sub = this.driverModalService.selectedDriver.subscribe(data => this.populateForm(data))
+      this.subs.push(this.driverModalService.selected.subscribe(data => this.populateForm(data)))
     } else {
       this.populateForm(emptyDriver())
     }
   }
 
+  ngOnDestroy() {
+    this.subs.forEach(sub => sub.unsubscribe());
+  }
+
   handleOk(): void {
-    let date = formatDate(this.form.get('dateOfBirth').value, 'dd-MM-yyyy', 'en')
-    let driver: Driver = {
-      driver: this.form.get('driver').value,
-      id: this.driver.id,
-      dateOfBirth: date,
-      nationality: this.form.get('nationality').value,
-      teams: this.listOfTeams.filter(team => this.form.get('teams').value.includes(team.id))
-    }
-    this.driverService.saveDriver(driver).subscribe(data => console.log(data));
-    this.router.navigate(['../'], {relativeTo: this.route})
+    let driver = this.extractDriver();
+    this.subs.push(this.driverService.save(driver).subscribe({
+      next: data => {
+        this.driverModalService.refresh.next(data)
+        this.notificationService.notification.next({success: true, successMsg: "Driver successfully updated"});
+        this.router.navigate(['../'], {relativeTo: this.route}).then()
+      },
+      error: error => {
+        this.notificationService.notification.next({success: false, errors: error.error.errors});
+      }
+    }));
   }
 
   handleCancel(): void {
-    this.router.navigate(['../'], {relativeTo: this.route})
-    if (this.sub)
-      this.sub.unsubscribe();
+    this.router.navigate(['../'], {relativeTo: this.route}).then()
   }
 
   initForm() {
@@ -81,9 +86,21 @@ export class DriverEditorModalComponent implements OnInit {
   }
 
   loadTeams() {
-    this.teamService.getTeams().subscribe(data => {
+    this.subs.push(this.teamService.getAll().subscribe(data => {
       this.listOfTeams = data;
-    })
+    }))
+  }
+
+  private extractDriver() {
+    let date = formatDate(this.form.get('dateOfBirth').value, 'dd-MM-yyyy', 'en')
+    let driver: Driver = {
+      driver: this.form.get('driver').value,
+      id: this.router.url.includes('edit') ? this.driver.id : null,
+      dateOfBirth: date,
+      nationality: this.form.get('nationality').value,
+      teams: this.listOfTeams.filter(team => this.form.get('teams').value.includes(team.id))
+    }
+    return driver;
   }
 
 }

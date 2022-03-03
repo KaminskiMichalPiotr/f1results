@@ -1,0 +1,28 @@
+<nz-modal (nzOnCancel)="handleCancel()" [nzVisible]='true' nzTitle="Season edit">
+  <ng-container *nzModalContent>
+    <form [formGroup]="form" nz-form>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzRequired>Season Year</nz-form-label>
+        <nz-form-control [nzErrorTip]="seasonYearErrorTpl" [nzSpan]="18" nzHasFeedback>
+          <nz-input-number [nzMax]="2050" [nzMin]="1950" [nzStep]="1" formControlName="seasonYear"></nz-input-number>
+          <ng-template #seasonYearErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">Please input location</ng-container>
+            <ng-container *ngIf="control.hasError('whitespace') && !control.hasError('required')">Location cannot be
+              empty
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+    </form>
+  </ng-container>
+  <div *nzModalFooter>
+    <button (click)="handleOk()" [disabled]="!form.valid" nz-button nzType="primary">
+      <i nz-icon nzTheme="outline" nzType="check"></i>Save
+    </button>
+    <button (click)="handleDelete()" *ngIf="deleteEnable" nz-button nzDanger nzType="primary">
+      <i nz-icon nzTheme="outline" nzType="close"></i>Delete
+    </button>
+  </div>
+</nz-modal>

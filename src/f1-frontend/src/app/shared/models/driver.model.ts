@@ -1,7 +1,7 @@
 import {Team} from "./team.model";
+import {Identity} from "./identity.model";
 
-export interface Driver {
-  id: number | null;
+export interface Driver extends Identity {
   driver: string;
   nationality: string;
   dateOfBirth: string;

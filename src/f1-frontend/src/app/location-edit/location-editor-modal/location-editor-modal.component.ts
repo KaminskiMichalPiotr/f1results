@@ -1,70 +1,71 @@
-import {Component, OnInit} from '@angular/core';
-import {emptyLocation, Location} from "../../models/location.model";
-import {Subscription, throwError} from "rxjs";
-import {FormBuilder, Validators} from "@angular/forms";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {emptyLocation, Location} from "../../shared/models/location.model";
+import {Subscription} from "rxjs";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {noWhitespaceValidator} from "../../shared/whitespace.validator";
-import {LocationModalService} from "../../services/location-modal.service";
-import {LocationService} from "../../services/location.service";
-import {HttpErrorResponse} from "@angular/common/http";
+import {LocationModalService} from "../../services/modal/location-modal.service";
+import {LocationService} from "../../services/crud/location.service";
+import {NotificationService} from "../../services/notification.service";
 
 @Component({
   selector: 'app-location-editor-modal',
   templateUrl: './location-editor-modal.component.html',
   styleUrls: ['./location-editor-modal.component.css']
 })
-export class LocationEditorModalComponent implements OnInit {
+export class LocationEditorModalComponent implements OnInit, OnDestroy {
 
-  isVisible: boolean = true;
+  deleteEnable = false;
 
-  location!: Location;
-  form: any;
-  private sub?: Subscription = undefined;
+  location: Location = emptyLocation();
+  form!: FormGroup;
+  private subs: Subscription[] = [];
 
   constructor(private fb: FormBuilder, private locationModalService: LocationModalService,
               private locationService: LocationService, private router: Router,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute, private notificationService: NotificationService) {
   }
 
   ngOnInit(): void {
     this.initForm();
     if (this.router.url.includes('edit')) {
-      this.sub = this.locationModalService.selectedLocation.subscribe(data => this.populateForm(data))
+      this.deleteEnable = true;
+      this.subs.push(this.locationModalService.selected.subscribe(
+        data => this.populateForm(data)
+      ));
     } else {
-      this.populateForm(emptyLocation())
+      this.populateForm(this.location)
     }
   }
+
+  ngOnDestroy(): void {
+    this.subs.forEach(sub => sub.unsubscribe());
+  }
+
 
   handleOk(): void {
     if (this.form.valid) {
-      let locationToSave: Location = {
-        id: this.location.id,
-        location: this.form.get('location').value,
-        locationTag: this.form.get('locationTag').value,
-        country: this.form.get('country').value
-      }
-      console.log(locationToSave);
-      this.locationService.saveLocation(locationToSave).subscribe(
-        data => {
-          this.router.navigate(['../'], {relativeTo: this.route});
-          this.locationModalService.notification.next({success: true});
+      let locationToSave = this.extractLocation();
+      this.subs.push(this.locationService.save(locationToSave).subscribe({
+        next: data => {
+          this.router.navigate(['../'], {relativeTo: this.route}).then();
+          this.notificationService.notification.next({success: true, successMsg: "Location  successfully updated"});
+          this.locationModalService.refresh.next(data);
         },
-        error => {
-          this.locationModalService.notification.next({success: false, errors: error.error.errors});
-          console.log(error);
+        error: error => {
+          this.notificationService.notification.next({success: false, errors: error.error.errors});
         }
-      );
+      }));
     }
   }
 
-  displaySuccess(data: any) {
-
+  handleDelete(): void {
+    this.locationModalService.delete.next(this.location);
+    this.router.navigate(['../'], {relativeTo: this.route}).then()
   }
 
   handleCancel(): void {
-    this.router.navigate(['../'], {relativeTo: this.route})
-    if (this.sub)
-      this.sub.unsubscribe();
+    this.router.navigate(['../'], {relativeTo: this.route}).then()
   }
 
   initForm() {
@@ -82,18 +83,10 @@ export class LocationEditorModalComponent implements OnInit {
     this.form.controls['country'].setValue(locationChange.country);
   }
 
-  private handleError(error: HttpErrorResponse) {
-    if (error.status === 0) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error);
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong.
-      console.error(
-        `Backend returned code ${error.status}, body was: `, error.error);
-    }
-    // Return an observable with a user-facing error message.
-    return throwError(() => new Error('Something bad happened; please try again later.'));
+  private extractLocation() {
+    let locationToSave = this.form.value as Location
+    locationToSave.id = this.location.id;
+    return locationToSave;
   }
 
 }

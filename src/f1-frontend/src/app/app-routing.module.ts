@@ -10,6 +10,7 @@ import {DriverEditorModalComponent} from "./driver-edit/driver-editor-modal/driv
 import {TeamEditorModalComponent} from "./team-edit/team-editor-modal/team-editor-modal.component";
 import {LocationEditComponent} from "./location-edit/location-edit.component";
 import {LocationEditorModalComponent} from "./location-edit/location-editor-modal/location-editor-modal.component";
+import {SeasonEditorModalComponent} from "./season-edit/season-editor-modal/season-editor-modal.component";
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: '/home'},
@@ -30,8 +31,8 @@ const routes: Routes = [
   },
   {
     path: 'manage/seasons', component: SeasonEditComponent, children: [
-      {path: 'add', component: TeamEditorModalComponent},
-      {path: 'edit', component: TeamEditorModalComponent}
+      {path: 'add', component: SeasonEditorModalComponent},
+      {path: 'edit', component: SeasonEditorModalComponent}
     ]
   },
   {

@@ -1,4 +1,4 @@
-<nz-modal (nzOnCancel)="handleCancel()" [(nzVisible)]="isVisible" nzTitle="Team edit">
+<nz-modal (nzOnCancel)="handleCancel()" [nzVisible]='true' nzTitle="Location edit">
   <ng-container *nzModalContent>
     <form [formGroup]="form" nz-form>
 
@@ -30,9 +30,9 @@
 
       <nz-form-item>
         <nz-form-label [nzSpan]="6" nzRequired>Country</nz-form-label>
-        <nz-form-control [nzErrorTip]="nationalityErrorTpl" [nzSpan]="18" nzHasFeedback>
+        <nz-form-control [nzErrorTip]="countryErrorTpl" [nzSpan]="18" nzHasFeedback>
           <input formControlName="country" nz-input type="text"/>
-          <ng-template #nationalityErrorTpl let-control>
+          <ng-template #countryErrorTpl let-control>
             <ng-container *ngIf="control.hasError('required')">Please input country</ng-container>
             <ng-container *ngIf="control.hasError('whitespace') && !control.hasError('required')">Country cannot be
               empty
@@ -47,8 +47,8 @@
     <button (click)="handleOk()" [disabled]="!form.valid" nz-button nzType="primary">
       <i nz-icon nzTheme="outline" nzType="check"></i>Save
     </button>
-    <button (click)="handleCancel()" nz-button nzDanger nzType="primary">
-      <i nz-icon nzTheme="outline" nzType="close"></i>Cancel
+    <button (click)="handleDelete()" *ngIf="deleteEnable" nz-button nzDanger nzType="primary">
+      <i nz-icon nzTheme="outline" nzType="close"></i>Delete
     </button>
   </div>
 </nz-modal>

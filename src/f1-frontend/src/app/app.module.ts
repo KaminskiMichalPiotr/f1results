@@ -34,6 +34,8 @@ import {TeamEditorModalComponent} from './team-edit/team-editor-modal/team-edito
 import {NzInputModule} from "ng-zorro-antd/input";
 import {LocationEditComponent} from './location-edit/location-edit.component';
 import {LocationEditorModalComponent} from './location-edit/location-editor-modal/location-editor-modal.component';
+import {SeasonEditorModalComponent} from './season-edit/season-editor-modal/season-editor-modal.component';
+import {NzInputNumberModule} from "ng-zorro-antd/input-number";
 
 
 registerLocaleData(en);
@@ -53,6 +55,7 @@ registerLocaleData(en);
     TeamEditorModalComponent,
     LocationEditComponent,
     LocationEditorModalComponent,
+    SeasonEditorModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,7 +76,8 @@ registerLocaleData(en);
     NzFormModule,
     NzDatePickerModule,
     ReactiveFormsModule,
-    NzInputModule
+    NzInputModule,
+    NzInputNumberModule
   ],
   providers: [{provide: NZ_I18N, useValue: en_US}],
   bootstrap: [AppComponent]

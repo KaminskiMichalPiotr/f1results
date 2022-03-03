@@ -23,7 +23,7 @@ public class DriverController {
         this.teamService = teamService;
     }
 
-    @GetMapping("/get")
+    @GetMapping()
     public ResponseEntity<List<Driver>> getDrivers() {
         return new ResponseEntity<>(driverService.getDrivers(), HttpStatus.OK);
     }
