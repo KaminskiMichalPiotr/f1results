@@ -6,6 +6,7 @@ import {Team} from "../shared/models/team.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {ModalOpener} from "../services/modal/modal-opener";
+import {changeElementIfPresentOrAdd} from "../shared/array.operator";
 
 @Component({
   selector: 'app-driver-edit',
@@ -34,14 +35,8 @@ export class DriverEditComponent extends ModalOpener<Driver> implements OnInit, 
   }
 
   driverChangeSubscription() {
-    this.subs.push(this.driverModalService.refresh.subscribe((data: Driver) => {
-      let index = this.drivers.findIndex(loc => loc.id === data.id)
-      if (index !== -1) {
-        this.drivers[index] = data;
-        this.drivers = [...this.drivers];
-      } else
-        this.drivers = [...this.drivers, data];
-    }))
+    this.subs.push(this.driverModalService.refresh
+      .subscribe((data: Driver) => this.drivers = changeElementIfPresentOrAdd(data, this.drivers)))
   }
 
   loadDrivers() {

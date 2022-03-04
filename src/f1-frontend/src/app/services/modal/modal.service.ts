@@ -1,6 +1,6 @@
 import {BehaviorSubject, Subject} from "rxjs";
 
-export abstract class ModalService<T> {
+export class ModalService<T> {
 
   protected constructor(private initialValue: T) {
   }

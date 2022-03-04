@@ -8,22 +8,19 @@
 <nz-table #basicTable [nzData]="dataArray"
           [nzPageSize]="10"
           nzShowPagination="true"
-          nzSize="default"
->
+          nzSize="default">
   <thead>
   <tr>
-    <th
-      [nzSortDirections]="['ascend', 'descend']"
-      [nzSortFn]="sortFn"
-      [nzSortOrder]="'ascend'"
-    >Season Year
-    </th>
+    <th>Index</th>
+    <th>Location</th>
+    <th>Date of Race</th>
   </tr>
   </thead>
   <tbody>
   <tr (click)="openEditModal(data)" *ngFor="let data of basicTable.data" style="cursor: pointer">
-    <td>{{data.seasonYear}}</td>
+    <td>{{data.index}}</td>
+    <td>{{extractLocationName(data)}}</td>
+    <td>{{data.dateOfRace}}</td>
   </tr>
   </tbody>
 </nz-table>
-

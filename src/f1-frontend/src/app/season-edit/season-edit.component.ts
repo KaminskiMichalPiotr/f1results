@@ -10,7 +10,8 @@ import {changeElementIfPresentOrAdd, deleteElement} from "../shared/array.operat
 @Component({
   selector: 'app-season-edit',
   templateUrl: './season-edit.component.html',
-  styleUrls: ['./season-edit.component.css']
+  styleUrls: ['./season-edit.component.css'],
+  providers: [SeasonModalService]
 })
 export class SeasonEditComponent extends ModalOpener<Season> implements OnInit, OnDestroy {
 
@@ -28,12 +29,10 @@ export class SeasonEditComponent extends ModalOpener<Season> implements OnInit, 
     this.subs.push(this.modal.refresh
       .subscribe((data: Season) => {
         this.dataArray = changeElementIfPresentOrAdd(data, this.dataArray);
-        this.sortByYear();
       }))
     this.subs.push(this.modal.delete
       .subscribe(data => {
         this.dataArray = deleteElement(data, this.dataArray);
-        this.sortByYear();
       }))
   }
 
@@ -44,12 +43,11 @@ export class SeasonEditComponent extends ModalOpener<Season> implements OnInit, 
   private loadSeasons() {
     this.subs.push(this.seasonService.getAll().subscribe(data => {
       this.dataArray = data
-      this.sortByYear()
     }))
   }
 
-  private sortByYear() {
-    this.dataArray = [...this.dataArray.sort((a, b) => (b.seasonYear - a.seasonYear))]
+  sortFn(a: Season, b: Season) {
+    return b.seasonYear - a.seasonYear
   }
 
 }

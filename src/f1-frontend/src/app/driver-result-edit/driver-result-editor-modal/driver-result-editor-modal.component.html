@@ -1,0 +1,50 @@
+<nz-modal (nzOnCancel)="handleCancel()" [nzVisible]='true' nzTitle="Driver result edit">
+  <ng-container *nzModalContent>
+    <form [formGroup]="form" nz-form>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzRequired>Driver</nz-form-label>
+        <nz-form-control [nzErrorTip]="driverErrorTpl" [nzSpan]="18" nzHasFeedback>
+          <nz-select formControlName="driver" nzAllowClear nzPlaceHolder="Select a driver" nzShowSearch>
+            <nz-option *ngFor="let driver of driversToSelect" [nzLabel]="driver.driver"
+                       [nzValue]="driver.id"></nz-option>
+          </nz-select>
+          <ng-template #driverErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">Please select driver</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzRequired>Team</nz-form-label>
+        <nz-form-control [nzErrorTip]="teamErrorTpl" [nzSpan]="18" nzHasFeedback>
+          <nz-select formControlName="team" nzAllowClear nzPlaceHolder="Select a driver" nzShowSearch>
+            <nz-option *ngFor="let team of teamToSelect" [nzLabel]="team.teamName" [nzValue]="team.id"></nz-option>
+          </nz-select>
+          <ng-template #teamErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">Please select team</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzRequired>Position</nz-form-label>
+        <nz-form-control [nzErrorTip]="positionErrorTpl" [nzSpan]="18" nzHasFeedback>
+          <nz-input-number [nzMax]="24" [nzMin]="1" formControlName="position" style="width: 100%;"></nz-input-number>
+          <ng-template #positionErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">Please input position</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+    </form>
+  </ng-container>
+  <div *nzModalFooter>
+    <button (click)="handleOk()" [disabled]="!form.valid" nz-button nzType="primary">
+      <i nz-icon nzTheme="outline" nzType="check"></i>Save
+    </button>
+    <button (click)="handleDelete()" *ngIf="deleteEnable" nz-button nzDanger nzType="primary">
+      <i nz-icon nzTheme="outline" nzType="close"></i>Delete
+    </button>
+  </div>
+</nz-modal>

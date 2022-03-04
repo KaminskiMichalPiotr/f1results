@@ -36,6 +36,18 @@ import {LocationEditComponent} from './location-edit/location-edit.component';
 import {LocationEditorModalComponent} from './location-edit/location-editor-modal/location-editor-modal.component';
 import {SeasonEditorModalComponent} from './season-edit/season-editor-modal/season-editor-modal.component';
 import {NzInputNumberModule} from "ng-zorro-antd/input-number";
+import {DriverResultEditComponent} from './driver-result-edit/driver-result-edit.component';
+import {
+  DriverResultEditorModalComponent
+} from './driver-result-edit/driver-result-editor-modal/driver-result-editor-modal.component';
+import {RaceResultEditComponent} from './race-result-edit/race-result-edit.component';
+import {
+  RaceResultEditorModalComponent
+} from './race-result-edit/race-result-editor-modal/race-result-editor-modal.component';
+import {RaceEventEditComponent} from './race-event-edit/race-event-edit.component';
+import {
+  RaceEventEditorModalComponent
+} from './race-event-edit/race-event-editor-modal/race-event-editor-modal.component';
 
 
 registerLocaleData(en);
@@ -56,6 +68,12 @@ registerLocaleData(en);
     LocationEditComponent,
     LocationEditorModalComponent,
     SeasonEditorModalComponent,
+    DriverResultEditComponent,
+    DriverResultEditorModalComponent,
+    RaceResultEditComponent,
+    RaceResultEditorModalComponent,
+    RaceEventEditComponent,
+    RaceEventEditorModalComponent,
   ],
   imports: [
     BrowserModule,

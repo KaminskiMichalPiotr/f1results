@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -28,6 +29,6 @@ public class RaceResult {
             referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "race_result_id")
     )
-    private List<DriverResult> driverResults;
+    private List<DriverResult> driverResults = Collections.emptyList();
 
 }

@@ -5,7 +5,8 @@
       <nz-form-item>
         <nz-form-label [nzSpan]="6" nzRequired>Season Year</nz-form-label>
         <nz-form-control [nzErrorTip]="seasonYearErrorTpl" [nzSpan]="18" nzHasFeedback>
-          <nz-input-number [nzMax]="2050" [nzMin]="1950" [nzStep]="1" formControlName="seasonYear"></nz-input-number>
+          <nz-input-number [nzMax]="2050" [nzMin]="1950" [nzStep]="1" formControlName="seasonYear"
+                           style="width: 100%;"></nz-input-number>
           <ng-template #seasonYearErrorTpl let-control>
             <ng-container *ngIf="control.hasError('required')">Please input location</ng-container>
             <ng-container *ngIf="control.hasError('whitespace') && !control.hasError('required')">Location cannot be

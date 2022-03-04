@@ -3,6 +3,8 @@ package com.f1.f1results.objects.raceresult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RaceResultService {
 
@@ -15,5 +17,9 @@ public class RaceResultService {
 
     public RaceResult save(RaceResult raceResult) {
         return raceResultRepository.save(raceResult);
+    }
+
+    public List<RaceResult> getAll() {
+        return raceResultRepository.findAll();
     }
 }

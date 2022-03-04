@@ -47,6 +47,7 @@ public class RaceEvent {
             referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "race_result_fk")
     )
+    @JsonIgnore
     private RaceResult raceResult;
 
     @ManyToOne
