@@ -1,7 +1,7 @@
 package com.f1.f1results.objects.raceevent;
 
+import com.f1.f1results.objects.driverresult.DriverResult;
 import com.f1.f1results.objects.location.Location;
-import com.f1.f1results.objects.raceresult.RaceResult;
 import com.f1.f1results.objects.season.Season;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -13,6 +13,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.util.Collections;
+import java.util.List;
 
 @Getter
 @Setter
@@ -39,17 +41,6 @@ public class RaceEvent {
     )
     private Location location;
 
-    @OneToOne(cascade = {
-            CascadeType.MERGE
-    })
-    @JoinColumn(
-            name = "race_result_id",
-            referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "race_result_fk")
-    )
-    @JsonIgnore
-    private RaceResult raceResult;
-
     @ManyToOne
     @JoinColumn(
             name = "season_id",
@@ -69,6 +60,14 @@ public class RaceEvent {
     @Column
     @NotNull(message = "Index of the race event must be provided")
     private int index;
+
+    @OneToMany
+    @JoinColumn(
+            name = "race_result_id",
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(name = "race_result_id")
+    )
+    private List<DriverResult> driverResults = Collections.emptyList();
 
 
 }

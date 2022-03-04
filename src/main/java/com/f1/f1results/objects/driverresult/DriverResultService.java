@@ -2,8 +2,6 @@ package com.f1.f1results.objects.driverresult;
 
 import com.f1.f1results.objects.raceevent.RaceEvent;
 import com.f1.f1results.objects.raceevent.RaceEventService;
-import com.f1.f1results.objects.raceresult.RaceResult;
-import com.f1.f1results.objects.raceresult.RaceResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +14,11 @@ public class DriverResultService {
 
     DriverResultRepository driverResultRepository;
     RaceEventService raceEventService;
-    RaceResultService raceResultService;
 
     @Autowired
-    public DriverResultService(DriverResultRepository driverResultRepository, RaceEventService raceEventService, RaceResultService raceResultService) {
+    public DriverResultService(DriverResultRepository driverResultRepository, RaceEventService raceEventService) {
         this.driverResultRepository = driverResultRepository;
         this.raceEventService = raceEventService;
-        this.raceResultService = raceResultService;
     }
 
     public DriverResult save(DriverResult driverResult) {
@@ -32,9 +28,7 @@ public class DriverResultService {
     public List<DriverResult> getDriverResultsByRace(Long raceId) {
         Optional<RaceEvent> raceEvent = this.raceEventService.getById(raceId);
         if (raceEvent.isPresent()) {
-            RaceResult raceResult = raceEvent.get().getRaceResult();
-            if (raceResult != null)
-                return raceResult.getDriverResults();
+            return raceEvent.get().getDriverResults();
         }
         return Collections.emptyList();
     }

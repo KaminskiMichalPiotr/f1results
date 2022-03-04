@@ -8,8 +8,6 @@ import com.f1.f1results.objects.location.Location;
 import com.f1.f1results.objects.location.LocationService;
 import com.f1.f1results.objects.raceevent.RaceEvent;
 import com.f1.f1results.objects.raceevent.RaceEventService;
-import com.f1.f1results.objects.raceresult.RaceResult;
-import com.f1.f1results.objects.raceresult.RaceResultService;
 import com.f1.f1results.objects.season.Season;
 import com.f1.f1results.objects.season.SeasonService;
 import com.f1.f1results.objects.team.Team;
@@ -36,7 +34,6 @@ public class F1resultApplication {
 	LocationService locationService;
 	DriverService driverService;
 	TeamService teamService;
-	RaceResultService raceResultService;
 	DriverResultService driverResultService;
 	RaceEventService raceEventService;
 	SeasonService seasonService;
@@ -44,12 +41,11 @@ public class F1resultApplication {
 	@Autowired
 	public F1resultApplication(LocationService locationService,
 							   DriverService driverService, TeamService teamService,
-							   RaceResultService raceResultService, DriverResultService driverResultService,
+							   DriverResultService driverResultService,
 							   RaceEventService raceEventService, SeasonService seasonService) {
 		this.locationService = locationService;
 		this.driverService = driverService;
 		this.teamService = teamService;
-		this.raceResultService = raceResultService;
 		this.driverResultService = driverResultService;
 		this.raceEventService = raceEventService;
 		this.seasonService = seasonService;
@@ -79,14 +75,10 @@ public class F1resultApplication {
 			driverResult2 = driverResultService.save(driverResult2);
 
 
-			RaceResult raceResult = new RaceResult(null, List.of(driverResult, driverResult2));
-			raceResult = raceResultService.save(raceResult);
-
-
 			Season season = new Season(null, null, 2020);
 			season = seasonService.save(season);
 
-			RaceEvent raceEvent = new RaceEvent(null, location, raceResult, season, "25-05-2021", 1);
+			RaceEvent raceEvent = new RaceEvent(null, location, season, "25-05-2021", 1, List.of(driverResult, driverResult2));
 			raceEvent = raceEventService.save(raceEvent);
 
 

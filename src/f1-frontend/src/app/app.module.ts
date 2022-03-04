@@ -40,10 +40,6 @@ import {DriverResultEditComponent} from './driver-result-edit/driver-result-edit
 import {
   DriverResultEditorModalComponent
 } from './driver-result-edit/driver-result-editor-modal/driver-result-editor-modal.component';
-import {RaceResultEditComponent} from './race-result-edit/race-result-edit.component';
-import {
-  RaceResultEditorModalComponent
-} from './race-result-edit/race-result-editor-modal/race-result-editor-modal.component';
 import {RaceEventEditComponent} from './race-event-edit/race-event-edit.component';
 import {
   RaceEventEditorModalComponent
@@ -70,8 +66,6 @@ registerLocaleData(en);
     SeasonEditorModalComponent,
     DriverResultEditComponent,
     DriverResultEditorModalComponent,
-    RaceResultEditComponent,
-    RaceResultEditorModalComponent,
     RaceEventEditComponent,
     RaceEventEditorModalComponent,
   ],
