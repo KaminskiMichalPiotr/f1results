@@ -12,7 +12,7 @@
                nzPlaceHolder="Race"
                style="width: 50%;">
       <nz-option *ngFor="let race of raceSelector"
-                 [nzLabel]="race.location.location"
+                 [nzLabel]="race.index + '. ' + race.location.location"
                  [nzValue]="race.id">
       </nz-option>
     </nz-select>

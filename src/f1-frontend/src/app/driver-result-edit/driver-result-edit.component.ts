@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {BehaviorSubject, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 import {SeasonService} from "../services/crud/season.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {changeElementIfPresentOrAdd, deleteElement} from "../shared/array.operator";
@@ -84,11 +84,12 @@ export class DriverResultEditComponent extends ModalOpener<DriverResult> impleme
   }
 
   override openEditModal(data: DriverResult) {
-    this.modal.chosenRace = new BehaviorSubject({raceId: this.selectedRaceId, year: this.selectedYear})
+    this.modal.chosenRace.next(this.selectedRaceId)
     super.openEditModal(data);
   }
 
   override openAddModal() {
+    this.modal.chosenRace.next(this.selectedRaceId)
     super.openAddModal();
   }
 
@@ -107,6 +108,7 @@ export class DriverResultEditComponent extends ModalOpener<DriverResult> impleme
   private loadRaces(year: number) {
     this.subs.push(this.raceEventService.getRaceEventsByYear(year)
       .subscribe(data => {
+        data.sort((a, b) => a.index! - b.index!)
         this.raceSelector = data
       }))
   }

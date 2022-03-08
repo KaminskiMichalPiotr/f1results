@@ -1,6 +1,7 @@
 package com.f1.f1results.objects.season;
 
 
+import com.f1.f1results.exceptions.IncorrectParamException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +28,8 @@ public class SeasonController {
     }
 
     @PostMapping
-    public ResponseEntity<Season> saveSeason(@Valid @RequestBody Season season) {
-        return ResponseEntity.ok(seasonService.save(season));
+    public ResponseEntity<Season> createSeason(@Valid @RequestBody Season season) throws IncorrectParamException {
+        return ResponseEntity.ok(seasonService.createSeason(season));
     }
 
     @GetMapping("/{id}")

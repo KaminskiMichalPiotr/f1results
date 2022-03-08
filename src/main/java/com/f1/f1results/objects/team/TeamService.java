@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,5 +34,9 @@ public class TeamService {
         List<Team> teamList = teamRepository.findAllById(ids);
         teamList.forEach(team -> team.addDriver(driver));
         return teamRepository.saveAll(teamList);
+    }
+
+    public Optional<Team> getById(Long id) {
+        return teamRepository.findById(id);
     }
 }

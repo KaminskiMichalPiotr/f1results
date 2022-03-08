@@ -25,7 +25,7 @@ export class DriverResultEditorModalComponent implements OnInit {
   driversToSelect: Driver[] = [];
   teamToSelect: Team[] = [];
   private subs: Subscription[] = [];
-  private selectedYearAndRaceId?: { raceId: number, year: number };
+  private selectedRaceId!: number;
 
   constructor(private fb: FormBuilder, private driverResultModalService: DriverResultModalService,
               private driverResultService: DriverResultService, private router: Router,
@@ -35,7 +35,7 @@ export class DriverResultEditorModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.subs.push(this.driverResultModalService.chosenRace.subscribe(data => this.selectedYearAndRaceId = data))
+    this.subs.push(this.driverResultModalService.chosenRace.subscribe(data => this.selectedRaceId = data))
     if (this.router.url.includes('edit')) {
       this.deleteEnable = true;
       this.subs.push(this.driverResultModalService.selected.subscribe(
@@ -54,19 +54,19 @@ export class DriverResultEditorModalComponent implements OnInit {
 
 
   handleOk(): void {
-    // if (this.form.valid) {
-    //   let locationToSave = this.extractLocation();
-    //   this.subs.push(this.locationService.save(locationToSave).subscribe({
-    //     next: data => {
-    //       this.router.navigate(['../'], {relativeTo: this.route}).then();
-    //       this.notificationService.notification.next({success: true, successMsg: "Location  successfully updated"});
-    //       this.locationModalService.refresh.next(data);
-    //     },
-    //     error: error => {
-    //       this.notificationService.notification.next({success: false, errors: error.error.errors});
-    //     }
-    //   }));
-    // }
+    if (this.form.valid) {
+      let driverResultToSave = this.extractData();
+      this.subs.push(this.driverResultService.createDriverResult(this.selectedRaceId, driverResultToSave).subscribe({
+        next: data => {
+          this.router.navigate(['../'], {relativeTo: this.route}).then();
+          this.notificationService.notification.next({success: true, successMsg: "Driver Result successfully saved"});
+          this.driverResultModalService.refresh.next(data);
+        },
+        error: error => {
+          this.notificationService.notification.next({success: false, errors: error.error.errors});
+        }
+      }));
+    }
   }
 
   handleDelete(): void {
@@ -96,6 +96,16 @@ export class DriverResultEditorModalComponent implements OnInit {
   loadDriversAndTeams() {
     this.subs.push(this.driverService.getAll().subscribe(data => this.driversToSelect = data));
     this.subs.push(this.teamService.getAll().subscribe(data => this.teamToSelect = data));
+  }
+
+  private extractData(): DriverResult {
+    let i = this.teamToSelect.findIndex(team => team.id === this.form.value.team)
+    let team = this.teamToSelect[i];
+    i = this.driversToSelect.findIndex(driver => driver.id === this.form.value.driver)
+    let driver = this.driversToSelect[i];
+    let id = this.driverResult.id;
+    let position = this.form.value.position;
+    return {id: id, driver: driver, team: team, position: position}
   }
 
 }

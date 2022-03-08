@@ -61,13 +61,19 @@ public class RaceEvent {
     @NotNull(message = "Index of the race event must be provided")
     private int index;
 
-    @OneToMany
+    @OneToMany(
+            cascade = CascadeType.MERGE
+    )
     @JoinColumn(
-            name = "race_result_id",
+            name = "race_event_id",
             referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "race_result_id")
+            foreignKey = @ForeignKey(name = "race_event_id")
     )
     private List<DriverResult> driverResults = Collections.emptyList();
 
+
+    public void addDriverResult(DriverResult driverResult) {
+        this.getDriverResults().add(driverResult);
+    }
 
 }

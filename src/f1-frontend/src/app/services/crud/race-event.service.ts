@@ -18,5 +18,8 @@ export class RaceEventService extends CrudService<RaceEvent> {
     return this.http.get<RaceEvent[]>(`${this.url}/by-season/${year}`)
   }
 
+  public createRaceEvent(year: number, raceEvent: RaceEvent): Observable<RaceEvent> {
+    return this.http.post<RaceEvent>(`${this.url}/${year}`, raceEvent);
+  }
 
 }

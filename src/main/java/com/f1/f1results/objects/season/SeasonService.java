@@ -1,5 +1,6 @@
 package com.f1.f1results.objects.season;
 
+import com.f1.f1results.exceptions.IncorrectParamException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,5 +31,14 @@ public class SeasonService {
 
     public List<Season> findAll() {
         return seasonRepository.findAll();
+    }
+
+    public Season createSeason(Season season) throws IncorrectParamException {
+        season.setId(null);
+        Optional<Season> bySeasonYear = seasonRepository.findBySeasonYear(season.getSeasonYear());
+        if (bySeasonYear.isPresent())
+            throw new IncorrectParamException("Season year:" + season.getSeasonYear() + " is already taken");
+        else
+            return this.seasonRepository.save(season);
     }
 }

@@ -18,7 +18,10 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "Team")
-@Table(name = "team")
+@Table(name = "team", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"team_name"}, name = "unique_team_name"),
+        @UniqueConstraint(columnNames = {"team_tag"}, name = "unique_team_tag")
+})
 public class Team {
 
     @Id
@@ -26,11 +29,13 @@ public class Team {
     @Column(updatable = false)
     private Long id;
 
-    @Column(unique = true)
+    @Column(name = "team_name")
     @NotBlank(message = "Team name cannot be empty!")
     private String teamName;
 
-    @Column(unique = true)
+
+    //TODO: tag min max 3
+    @Column(name = "team_tag")
     @NotBlank(message = "Team tag cannot be empty!")
     private String teamTag;
 

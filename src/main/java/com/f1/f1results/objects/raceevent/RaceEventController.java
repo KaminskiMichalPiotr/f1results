@@ -1,13 +1,11 @@
 package com.f1.f1results.objects.raceevent;
 
+import com.f1.f1results.exceptions.IncorrectParamException;
 import com.f1.f1results.objects.season.Season;
 import com.f1.f1results.objects.season.SeasonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,6 +37,16 @@ public class RaceEventController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PostMapping(path = "{seasonYear}")
+    public ResponseEntity<RaceEvent> createRaceEvent(@PathVariable int seasonYear,
+                                                     @RequestBody RaceEvent raceEvent) throws IncorrectParamException {
+        if (raceEvent.getId() == null) {
+            RaceEvent savedRaceEvent = raceEventService.createRaceEvent(seasonYear, raceEvent);
+            return ResponseEntity.ok(savedRaceEvent);
+        }
+        return ResponseEntity.badRequest().build();
     }
 
 }

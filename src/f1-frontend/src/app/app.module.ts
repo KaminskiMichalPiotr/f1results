@@ -44,6 +44,7 @@ import {RaceEventEditComponent} from './race-event-edit/race-event-edit.componen
 import {
   RaceEventEditorModalComponent
 } from './race-event-edit/race-event-editor-modal/race-event-editor-modal.component';
+import {NzPopconfirmModule} from "ng-zorro-antd/popconfirm";
 
 
 registerLocaleData(en);
@@ -89,7 +90,8 @@ registerLocaleData(en);
     NzDatePickerModule,
     ReactiveFormsModule,
     NzInputModule,
-    NzInputNumberModule
+    NzInputNumberModule,
+    NzPopconfirmModule
   ],
   providers: [{provide: NZ_I18N, useValue: en_US}],
   bootstrap: [AppComponent]

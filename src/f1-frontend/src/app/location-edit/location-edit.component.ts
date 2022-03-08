@@ -26,6 +26,10 @@ export class LocationEditComponent extends ModalOpener<Location> implements OnIn
 
   ngOnInit(): void {
     this.loadLocations();
+    this.listenToLocationChanges();
+  }
+
+  private listenToLocationChanges() {
     this.subs.push(this.locationModalService.refresh
       .subscribe((data: Location) => this.locations = changeElementIfPresentOrAdd(data, this.locations)))
     this.subs.push(this.locationModalService.delete

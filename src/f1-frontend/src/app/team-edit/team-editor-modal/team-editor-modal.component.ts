@@ -1,49 +1,71 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {emptyTeam, Team} from "../../shared/models/team.model";
 import {Subscription} from "rxjs";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TeamService} from "../../services/crud/team.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {noWhitespaceValidator} from "../../shared/whitespace.validator";
 import {TeamModalService} from "../../services/modal/team-modal.service";
+import {NotificationService} from "../../services/notification.service";
 
 @Component({
   selector: 'app-team-editor-modal',
   templateUrl: './team-editor-modal.component.html',
   styleUrls: ['./team-editor-modal.component.css']
 })
-export class TeamEditorModalComponent implements OnInit {
+export class TeamEditorModalComponent implements OnInit, OnDestroy {
 
   subs: Subscription[] = []
   isVisible: boolean = true;
+  deleteEnable = false;
 
-  team!: Team;
-  form: any;
-  private sub?: Subscription = undefined;
+  team: Team = emptyTeam();
+  form!: FormGroup;
 
   constructor(private fb: FormBuilder, private teamModalService: TeamModalService,
               private teamService: TeamService, private router: Router,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute, private notificationService: NotificationService) {
   }
 
   ngOnInit(): void {
     this.initForm();
     if (this.router.url.includes('edit')) {
-      this.sub = this.teamModalService.selected.subscribe(data => this.populateForm(data))
+      this.deleteEnable = true;
+      this.subs.push(this.teamModalService.selected.subscribe(
+        data => this.populateForm(data)))
     } else {
-      this.populateForm(emptyTeam())
+      this.populateForm(this.team)
     }
   }
 
+  ngOnDestroy() {
+    this.subs.forEach(sub => sub.unsubscribe());
+  }
+
   handleOk(): void {
-    this.router.navigate(['../'], {relativeTo: this.route})
+    if (this.form.valid) {
+      let teamToSave = this.extractTeam();
+      this.subs.push(this.teamService.save(teamToSave).subscribe({
+        next: data => {
+          this.router.navigate(['../'], {relativeTo: this.route}).then();
+          this.notificationService.notification.next({success: true, successMsg: "Team  successfully saved"});
+          this.teamModalService.refresh.next(data);
+        },
+        error: error => {
+          this.notificationService.notification.next({success: false, errors: error.error.errors});
+        }
+      }));
+    }
+  }
+
+  handleDelete(): void {
+
   }
 
   handleCancel(): void {
     this.router.navigate(['../'], {relativeTo: this.route})
-    if (this.sub)
-      this.sub.unsubscribe();
   }
+
 
   initForm() {
     this.form = this.fb.group({
@@ -60,5 +82,9 @@ export class TeamEditorModalComponent implements OnInit {
     this.form.controls['country'].setValue(teamChange.country);
   }
 
-
+  private extractTeam(): Team {
+    let teamToSave = this.form.value as Team;
+    teamToSave.id = this.team.id;
+    return teamToSave
+  }
 }

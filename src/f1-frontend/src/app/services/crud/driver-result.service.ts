@@ -15,7 +15,11 @@ export class DriverResultService extends CrudService<DriverResult> {
   }
 
   public getDriverResultByRaceId(raceId: number): Observable<DriverResult[]> {
-    return this.http.get<DriverResult[]>(`${this.url}//driver-results-by-race/${raceId}`)
+    return this.http.get<DriverResult[]>(`${this.url}/driver-results-by-race/${raceId}`)
+  }
+
+  public createDriverResult(raceId: number, driverResult: DriverResult): Observable<DriverResult> {
+    return this.http.post<DriverResult>(`${this.url}/create/${raceId}`, driverResult)
   }
 
 }

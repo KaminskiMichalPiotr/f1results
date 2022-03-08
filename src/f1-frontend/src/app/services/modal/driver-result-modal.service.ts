@@ -8,7 +8,7 @@ import {BehaviorSubject} from "rxjs";
 })
 export class DriverResultModalService extends ModalService<DriverResult> {
 
-  public chosenRace!: BehaviorSubject<{ raceId: number, year: number }>;
+  public chosenRace = new BehaviorSubject<number>(-1);
 
   constructor() {
     super(emptyDriverResult())
