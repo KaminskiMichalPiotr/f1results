@@ -1,0 +1,54 @@
+<nz-modal (nzOnCancel)="handleCancel()" [nzVisible]='true' nzTitle="Location edit">
+  <ng-container *nzModalContent>
+    <form [formGroup]="form" nz-form>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzRequired>Location</nz-form-label>
+        <nz-form-control [nzErrorTip]="nameErrorTpl" [nzSpan]="18" nzHasFeedback>
+          <input formControlName="location" nz-input type="text"/>
+          <ng-template #nameErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">Please input location</ng-container>
+            <ng-container *ngIf="control.hasError('whitespace') && !control.hasError('required')">Location cannot be
+              empty
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzRequired>Location Tag</nz-form-label>
+        <nz-form-control [nzErrorTip]="nationalityErrorTpl" [nzSpan]="18" nzHasFeedback>
+          <input formControlName="locationTag" nz-input type="text"/>
+          <ng-template #nationalityErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">Please input location tag</ng-container>
+            <ng-container *ngIf="control.hasError('whitespace') && !control.hasError('required')">Location tag cannot be
+              empty
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzRequired>Country</nz-form-label>
+        <nz-form-control [nzErrorTip]="countryErrorTpl" [nzSpan]="18" nzHasFeedback>
+          <input formControlName="country" nz-input type="text"/>
+          <ng-template #countryErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">Please input country</ng-container>
+            <ng-container *ngIf="control.hasError('whitespace') && !control.hasError('required')">Country cannot be
+              empty
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+    </form>
+  </ng-container>
+  <div *nzModalFooter>
+    <button (click)="handleOk()" [disabled]="!form.valid" nz-button nzType="primary">
+      <i nz-icon nzTheme="outline" nzType="check"></i>Save
+    </button>
+    <button (click)="handleDelete()" *ngIf="deleteEnable" nz-button nzDanger nzType="primary">
+      <i nz-icon nzTheme="outline" nzType="close"></i>Delete
+    </button>
+  </div>
+</nz-modal>

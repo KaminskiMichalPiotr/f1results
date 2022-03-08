@@ -1,0 +1,46 @@
+<nz-modal (nzOnCancel)="handleCancel()" [nzVisible]='true' nzTitle="Race Event edit">
+  <ng-container *nzModalContent>
+    <form [formGroup]="form" nz-form>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzRequired>Race index</nz-form-label>
+        <nz-form-control [nzErrorTip]="indexErrorTpl" [nzSpan]="18" nzHasFeedback>
+          <nz-input-number [nzMax]="30" [nzMin]="1" formControlName="index" style="width: 100%;"></nz-input-number>
+          <ng-template #indexErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">Please input race index number</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzRequired>Location</nz-form-label>
+        <nz-form-control [nzErrorTip]="locationErrorTpl" [nzSpan]="18" nzHasFeedback>
+          <nz-select formControlName="location" nzAllowClear nzPlaceHolder="Select a location" nzShowSearch>
+            <nz-option *ngFor="let location of locationsToSelect" [nzLabel]="location.location"
+                       [nzValue]="location.id"></nz-option>
+          </nz-select>
+          <ng-template #locationErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">Please select location</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzFor="dateOfRace" nzRequired>Date of race</nz-form-label>
+        <nz-form-control [nzSpan]="18">
+          <nz-date-picker formControlName="dateOfRace" style="width: 100%"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+
+    </form>
+  </ng-container>
+  <div *nzModalFooter>
+    <button (click)="handleOk()" [disabled]="!form.valid" nz-button nzType="primary">
+      <i nz-icon nzTheme="outline" nzType="check"></i>Save
+    </button>
+    <button (click)="handleDelete()" *ngIf="deleteEnable" nz-button nzDanger nzType="primary">
+      <i nz-icon nzTheme="outline" nzType="close"></i>Delete
+    </button>
+  </div>
+</nz-modal>

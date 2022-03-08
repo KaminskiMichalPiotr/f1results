@@ -1,0 +1,54 @@
+<router-outlet></router-outlet>
+<div nz-row>
+  <div [nzSpan]="6" nz-col>
+    <nz-select (ngModelChange)="seasonSelectEvent($event)" ngModel="season" nzPlaceHolder="Season"
+               style="width: 50%;">
+      <nz-option *ngFor="let season of seasonSelector"
+                 [nzLabel]="season"
+                 [nzValue]="season">
+      </nz-option>
+    </nz-select>
+    <nz-select (ngModelChange)="raceSelectEvent($event)" [nzDisabled]="!seasonSelected" ngModel="race"
+               nzPlaceHolder="Race"
+               style="width: 50%;">
+      <nz-option *ngFor="let race of raceSelector"
+                 [nzLabel]="race.index + '. ' + race.location.location"
+                 [nzValue]="race.id">
+      </nz-option>
+    </nz-select>
+  </div>
+  <div [nzOffset]="12" [nzSpan]="6" nz-col>
+    <button (click)="openAddModal()" [disabled]="!raceSelected" nz-button nzType="primary" style="float: right">
+      <i nz-icon nzType="plus"></i>
+      Add
+    </button>
+  </div>
+</div>
+<nz-divider></nz-divider>
+<nz-table #basicTable [nzData]="dataArray"
+          [nzPageSize]="10"
+          nzShowPagination="true"
+          nzSize="default">
+  <thead>
+  <tr>
+    <th
+      [nzSortDirections]="['ascend', 'descend']"
+      [nzSortFn]="sortPosition"
+      [nzSortOrder]="'descend'"
+    >Position
+    </th>
+    <th>Driver</th>
+    <th>Team</th>
+    <th>Points</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr (click)="openEditModal(data)" *ngFor="let data of basicTable.data" style="cursor: pointer">
+    <td>{{data.position}}</td>
+    <td>{{extractDriverName(data)}}</td>
+    <td>{{extractTeamName(data)}}</td>
+    <td>{{data.points}}</td>
+  </tr>
+  </tbody>
+</nz-table>
+

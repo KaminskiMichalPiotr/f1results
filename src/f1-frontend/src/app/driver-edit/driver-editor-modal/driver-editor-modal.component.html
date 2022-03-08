@@ -1,0 +1,58 @@
+<nz-modal (nzOnCancel)="handleCancel()" [(nzVisible)]="isVisible" nzTitle="Driver edit">
+  <ng-container *nzModalContent>
+    <form [formGroup]="form" nz-form>
+
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzRequired>Name</nz-form-label>
+        <nz-form-control [nzErrorTip]="nameErrorTpl" [nzSpan]="18" nzHasFeedback>
+          <input formControlName="driver" nz-input type="text"/>
+          <ng-template #nameErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">Please input name</ng-container>
+            <ng-container *ngIf="control.hasError('whitespace') && !control.hasError('required')">Name cannot be empty
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzRequired>Nationality</nz-form-label>
+        <nz-form-control [nzErrorTip]="nationalityErrorTpl" [nzSpan]="18" nzHasFeedback>
+          <input formControlName="nationality" nz-input type="text"/>
+          <ng-template #nationalityErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">Please input nationality</ng-container>
+            <ng-container *ngIf="control.hasError('whitespace') && !control.hasError('required')">Nationality cannot be
+              empty
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzFor="dateOfBirth" nzRequired>Date of birth</nz-form-label>
+        <nz-form-control [nzSpan]="18">
+          <nz-date-picker formControlName="dateOfBirth"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzFor="email" nzRequired nzTooltipTitle="You can select multiple teams">
+          Teams
+        </nz-form-label>
+        <nz-form-control [nzSpan]="18">
+          <nz-select formControlName="teams" nzMode="tags">
+            <nz-option *ngFor="let team of listOfTeams" [nzLabel]="team.teamName" [nzValue]="team.id"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+  <div *nzModalFooter>
+    <button (click)="handleOk()" [disabled]="!form.valid" nz-button nzType="primary"><i nz-icon nzTheme="outline"
+                                                                                        nzType="check"></i>Save
+    </button>
+    <button (click)="handleCancel()" nz-button nzDanger nzType="primary"><i nz-icon nzTheme="outline"
+                                                                            nzType="close"></i>Cancel
+    </button>
+  </div>
+</nz-modal>

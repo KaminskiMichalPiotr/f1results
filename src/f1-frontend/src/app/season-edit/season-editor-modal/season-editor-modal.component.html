@@ -1,0 +1,35 @@
+<nz-modal (nzOnCancel)="handleCancel()" [nzVisible]='true' nzTitle="Season edit">
+  <ng-container *nzModalContent>
+    <form [formGroup]="form" nz-form>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzRequired>Season Year</nz-form-label>
+        <nz-form-control [nzErrorTip]="seasonYearErrorTpl" [nzSpan]="18" nzHasFeedback>
+          <nz-input-number [nzMax]="2050" [nzMin]="1950" [nzStep]="1" formControlName="seasonYear"
+                           style="width: 100%;"></nz-input-number>
+          <ng-template #seasonYearErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">Please input location</ng-container>
+            <ng-container *ngIf="control.hasError('whitespace') && !control.hasError('required')">Location cannot be
+              empty
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+    </form>
+  </ng-container>
+  <div *nzModalFooter>
+    <button (click)="handleOk()" [disabled]="!form.valid" nz-button nzType="primary">
+      <i nz-icon nzTheme="outline" nzType="check"></i>Save
+    </button>
+    <button (nzOnConfirm)="handleDelete()"
+            *ngIf="deleteEnable"
+            nz-button
+            nz-popconfirm
+            nzDanger nzPopconfirmPlacement="bottom"
+            nzPopconfirmTitle="Deleting season will result in deleting correspondent race events. Are you sure?"
+            nzType="primary">
+      <i nz-icon nzTheme="outline" nzType="close"></i>Delete
+    </button>
+  </div>
+</nz-modal>

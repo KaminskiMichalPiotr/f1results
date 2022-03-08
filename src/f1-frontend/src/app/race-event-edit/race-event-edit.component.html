@@ -1,0 +1,38 @@
+<router-outlet></router-outlet>
+<div nz-row>
+  <div [nzSpan]="6" nz-col>
+    <nz-select (ngModelChange)="seasonSelectEvent($event)" ngModel="season" nzPlaceHolder="Season"
+               style="width: 50%;">
+      <nz-option *ngFor="let season of seasonSelector"
+                 [nzLabel]="season"
+                 [nzValue]="season">
+      </nz-option>
+    </nz-select>
+  </div>
+  <div [nzOffset]="12" [nzSpan]="6" nz-col>
+    <button (click)="openAddModal()" [disabled]="!seasonSelected" nz-button nzType="primary" style="float: right">
+      <i nz-icon nzType="plus"></i>
+      Add
+    </button>
+  </div>
+</div>
+<nz-divider></nz-divider>
+<nz-table #basicTable [nzData]="dataArray"
+          [nzPageSize]="10"
+          nzShowPagination="true"
+          nzSize="default">
+  <thead>
+  <tr>
+    <th>Index</th>
+    <th>Location</th>
+    <th>Date of Race</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr (click)="openEditModal(data)" *ngFor="let data of basicTable.data" style="cursor: pointer">
+    <td>{{data.index}}</td>
+    <td>{{extractLocationName(data)}}</td>
+    <td>{{data.dateOfRace}}</td>
+  </tr>
+  </tbody>
+</nz-table>

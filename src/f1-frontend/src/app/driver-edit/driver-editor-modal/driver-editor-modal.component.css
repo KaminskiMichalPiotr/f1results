@@ -1,0 +1,7 @@
+input, nz-date-picker, nz-select {
+  width: 100%;
+}
+
+nz-form-label {
+  text-align: left;
+}
