@@ -36,4 +36,9 @@ class PointsScoringSystemTest {
         assertThrows(IllegalArgumentException.class, () -> getPointsScoredByPosition(0, RaceDistance.FULL));
     }
 
+    @Test
+    void testFail() {
+        assertEquals(1, 2);
+    }
+
 }
