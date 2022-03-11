@@ -7,7 +7,7 @@ import {en_US, NZ_I18N} from 'ng-zorro-antd/i18n';
 import {registerLocaleData} from '@angular/common';
 import en from '@angular/common/locales/en';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {IconsProviderModule} from './icons-provider.module';
 import {NzLayoutModule} from 'ng-zorro-antd/layout';
@@ -45,6 +45,8 @@ import {
   RaceEventEditorModalComponent
 } from './race-event-edit/race-event-editor-modal/race-event-editor-modal.component';
 import {NzPopconfirmModule} from "ng-zorro-antd/popconfirm";
+import {LoginComponent} from './login/login.component';
+import {TokenInterceptor} from "./services/token.interceptor";
 
 
 registerLocaleData(en);
@@ -69,6 +71,7 @@ registerLocaleData(en);
     DriverResultEditorModalComponent,
     RaceEventEditComponent,
     RaceEventEditorModalComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -93,7 +96,11 @@ registerLocaleData(en);
     NzInputNumberModule,
     NzPopconfirmModule
   ],
-  providers: [{provide: NZ_I18N, useValue: en_US}],
+  providers: [{provide: NZ_I18N, useValue: en_US}, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule {

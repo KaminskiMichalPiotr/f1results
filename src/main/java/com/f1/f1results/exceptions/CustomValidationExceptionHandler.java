@@ -25,16 +25,11 @@ public class CustomValidationExceptionHandler extends ResponseEntityExceptionHan
     @Override
     protected @NonNull ResponseEntity<Object> handleMethodArgumentNotValid
     (MethodArgumentNotValidException ex, @NonNull HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
-
-//        Map<String, Object> body = new LinkedHashMap<>();
-//        body.put("timestamp", new Date());
-//        body.put("status", status.value());
         List<String> errors = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
-//        body.put("errors", errors);
         ApiError apiError = new ApiError(status, new Date(), errors);
         return new ResponseEntity<>(apiError, headers, status);
     }
@@ -54,8 +49,7 @@ public class CustomValidationExceptionHandler extends ResponseEntityExceptionHan
     protected ResponseEntity<Object> handleValidationError(Exception exception) {
         HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
         ApiError apiError = new ApiError(status, new Date(), exception.getMessage());
-        return new ResponseEntity<>(apiError, HttpStatus.UNPROCESSABLE_ENTITY);
+        return new ResponseEntity<>(apiError, status);
     }
-
 
 }
