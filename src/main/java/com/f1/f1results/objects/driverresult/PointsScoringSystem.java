@@ -2,7 +2,11 @@ package com.f1.f1results.objects.driverresult;
 
 public class PointsScoringSystem {
 
-    public static double getPointsScoredByPosition(int position, boolean halfPoints) {
+    public static double getPointsScoredByPosition(int position, RaceDistance raceDistance) throws NullPointerException, IllegalArgumentException {
+        if (raceDistance == null)
+            throw new NullPointerException("Race distance cannot be null");
+        if (position < 1)
+            throw new IllegalArgumentException("Position must be greater than 0");
         double points;
         switch (position) {
             case 1:
@@ -38,7 +42,7 @@ public class PointsScoringSystem {
             default:
                 points = 0;
         }
-        return halfPoints ? points / 2 : points;
+        return points * raceDistance.getRaceDistance();
     }
 
 }

@@ -57,7 +57,7 @@ public class DriverResultService {
                 null,
                 driver,
                 driverResult.getPosition(),
-                getPointsScoredByPosition(driverResult.getPosition(), false),
+                getPointsScoredByPosition(driverResult.getPosition(), RaceDistance.FULL),
                 team);
         resultToSave = driverResultRepository.save(resultToSave);
         raceEvent.addDriverResult(resultToSave);
