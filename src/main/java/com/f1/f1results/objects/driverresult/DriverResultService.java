@@ -20,10 +20,10 @@ import static com.f1.f1results.objects.driverresult.PointsScoringSystem.getPoint
 @Service
 public class DriverResultService {
 
-    DriverResultRepository driverResultRepository;
-    RaceEventService raceEventService;
-    DriverService driverService;
-    TeamService teamService;
+    private final DriverResultRepository driverResultRepository;
+    private final RaceEventService raceEventService;
+    private final DriverService driverService;
+    private final TeamService teamService;
 
     @Autowired
     public DriverResultService(DriverResultRepository driverResultRepository,

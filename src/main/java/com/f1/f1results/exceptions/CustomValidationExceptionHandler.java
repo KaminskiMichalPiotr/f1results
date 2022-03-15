@@ -30,8 +30,8 @@ public class CustomValidationExceptionHandler extends ResponseEntityExceptionHan
                 .stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
-        ApiError apiError = new ApiError(status, new Date(), errors);
-        return new ResponseEntity<>(apiError, headers, status);
+        ApiError apiError = new ApiError(HttpStatus.UNPROCESSABLE_ENTITY, new Date(), errors);
+        return new ResponseEntity<>(apiError, headers, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @ExceptionHandler(value = {SQLException.class})
