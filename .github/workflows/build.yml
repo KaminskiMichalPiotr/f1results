@@ -34,6 +34,6 @@ jobs:
         with:
           java-version: ${{ env.JAVA_VERSION }}
       - name: Create 2nd Database
-        run: postgres --host 127.0.0.1 --port 5432 -uroot -e "CREATE DATABASE IF NOT EXISTS formula2;"
+        run: psql -U postgres -tc "SELECT 'CREATE DATABASE formula2' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'formula2')"
       - name: Maven Clean Package
         run: mvn clean install
