@@ -23,7 +23,7 @@ export class LoginComponent {
   submitForm() {
     let user = this.extractData();
 
-    this.loginService.login(user).subscribe(resp => console.log(resp))
+    this.loginService.login(user).subscribe(() => this.router.navigate(['/']))
 
   }
 

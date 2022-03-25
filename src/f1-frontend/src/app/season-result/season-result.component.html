@@ -1,26 +1,53 @@
-<nz-table #basicTable [nzData]="dataSet"
-          [nzPageSize]="20"
+<div nz-row>
+  <div [nzSpan]="6" nz-col>
+    <nz-select (ngModelChange)="seasonSelectEvent($event)" [formControl]="season" nzPlaceHolder="Season"
+               style="width: 100%;">
+      <nz-option *ngFor="let season of seasonSelector"
+                 [nzLabel]="season"
+                 [nzValue]="season">
+      </nz-option>
+    </nz-select>
+  </div>
+</div>
+<nz-divider></nz-divider>
+
+<nz-table #seasonData
+          [nzData]="driverResults"
+          [nzPageSize]="24"
           [nzScroll]="{ x: '150px' }"
           nzShowPagination="false"
+          nzBordered
           nzSize="small">
   <thead>
   <tr>
-    <th nzLeft style="width: 40px">Pos.</th>
-    <th nzLeft style="width: 100px">Driver</th>
-    <ng-container *ngFor="let race of basicTable.data[0].races">
-      <th nzAlign="center" style="width: 50px">{{race.locationTag}}</th>
+    <th nzLeft nzWidth="45px">Pos.</th>
+    <th nzLeft nzWidth="140px">Driver</th>
+    <ng-container *ngFor="let locationTag of locationsTag">
+      <th nzAlign="center" nzWidth="55px">
+        {{locationTag}}
+      </th>
     </ng-container>
-    <th nzAlign="center" style="width: 50px">Total Points</th>
+    <th [nzSortDirections]="['ascend', 'descend']" [nzSortFn]="sortTotalPosition"
+        [nzSortOrder]="'ascend'"
+        nzAlign="center"
+        nzWidth="70px">Total Points
+    </th>
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let data of basicTable.data">
-    <td nzLeft style="width: 40px">{{data.position}}</td>
-    <td nzLeft style="width: 100px">{{data.driver}}</td>
-    <ng-container *ngFor="let race of data.races">
-      <th nzAlign="center" style="width: 50px">{{race.position}}</th>
+  <tr *ngFor="let result of seasonData.data">
+    <td nzLeft>{{result.position}}</td>
+    <td nzLeft>{{result.driver.driver}}</td>
+    <ng-container *ngFor="let locationTag of locationsTag; let i = index">
+      <td [ngClass]="{
+        'p1': getPosition(result.positionInRace, i) === 1,
+        'p2': getPosition(result.positionInRace, i) === 2,
+        'p3': getPosition(result.positionInRace, i) === 3,
+        'points': (getPosition(result.positionInRace, i) > 3 && getPosition(result.positionInRace, i) <= 10),
+        'outsidePoints': getPosition(result.positionInRace, i) > 10}" nzAlign="center">
+        {{getPosition(result.positionInRace, i)}}</td>
     </ng-container>
-    <td nzAlign="center" style="width: 50px">{{data.totalPoints}}</td>
+    <td nzAlign="center">{{result.totalPoints}}</td>
   </tr>
   </tbody>
 </nz-table>

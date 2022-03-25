@@ -1,7 +1,7 @@
 package com.f1.f1results.integration;
 
-import com.f1.f1results.objects.team.Team;
-import com.f1.f1results.objects.team.TeamRepository;
+import com.f1.f1results.entities.team.Team;
+import com.f1.f1results.entities.team.TeamRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

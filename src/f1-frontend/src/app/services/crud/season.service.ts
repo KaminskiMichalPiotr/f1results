@@ -4,6 +4,7 @@ import {Season} from "../../shared/models/season.model";
 import {HttpClient} from "@angular/common/http";
 import {PATH} from "../../shared/variables";
 import {Observable} from "rxjs";
+import {SeasonResult} from "../../shared/models/season-result.model";
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,10 @@ export class SeasonService extends CrudService<Season> {
 
   public getSeasonsYears(): Observable<number[]> {
     return this.http.get<number[]>(`${this.url}/seasonsYears`)
+  }
+
+  public getSeasonResults(seasonYear: number): Observable<SeasonResult> {
+    return this.http.get<SeasonResult>(`${this.url}/seasonResult/${seasonYear}`)
   }
 
 }

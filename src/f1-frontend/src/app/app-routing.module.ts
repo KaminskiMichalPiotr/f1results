@@ -25,7 +25,7 @@ const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: '/home'},
   {path: 'login', component: LoginComponent},
   {path: 'home', pathMatch: 'full', component: HomeComponent},
-  {path: '2019', pathMatch: 'full', component: SeasonResultComponent},
+  {path: 'seasons', pathMatch: 'full', component: SeasonResultComponent},
   {path: '2020', pathMatch: 'full', component: SeasonResultComponent},
   {
     path: 'manage/drivers', component: DriverEditComponent, children: [

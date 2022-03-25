@@ -5,29 +5,17 @@
   </a>
 </div>
 <ul [nzInlineCollapsed]="isCollapsed" nz-menu nzMode="inline" nzTheme="dark">
-  <li nz-submenu nzIcon="dashboard" nzOpen nzTitle="Seasons">
-    <ul>
-      <li nz-menu-item nzMatchRouter>
-        <a routerLink="/2020">2020</a>
-      </li>
-      <li nz-menu-item nzMatchRouter>
-        <a routerLink="/2019">2019</a>
-      </li>
-    </ul>
+  <li nz-menu-item nzMatchRouter routerLink="/seasons">
+    <i nz-icon nzType="dashboard"></i>
+    <span>Seasons</span>
   </li>
-  <li nz-submenu nzIcon="rise" nzOpen nzTitle="Drivers">
-    <ul>
-      <li nz-menu-item nzMatchRouter>
-        <a>Basic Form</a>
-      </li>
-    </ul>
+  <li nz-menu-item nzMatchRouter routerLink="/drivers">
+    <i nz-icon nzType="rise"></i>
+    <span>Drivers</span>
   </li>
-  <li nz-submenu nzIcon="radar-chart" nzOpen nzTitle="Head 2 Head">
-    <ul>
-      <li nz-menu-item nzMatchRouter>
-        <a>Basic Form</a>
-      </li>
-    </ul>
+  <li nz-menu-item nzMatchRouter routerLink="/head2head">
+    <i nz-icon nzType="radar-chart"></i>
+    <span>Head 2 Head</span>
   </li>
   <li nz-menu-item nzMatchRouter routerLink="/login">
     <i nz-icon nzType="radar-chart"></i>
