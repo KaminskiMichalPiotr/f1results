@@ -16,7 +16,7 @@ import {changeElementIfPresentOrAdd} from "../shared/array.operator";
 })
 export class DriverEditComponent extends ModalOpener<Driver> implements OnInit, OnDestroy {
 
-  subs: Subscription[] = []
+  subs: Subscription[] = [];
 
   drivers: Driver[] = [];
 

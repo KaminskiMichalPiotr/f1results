@@ -47,6 +47,7 @@ import {
 import {NzPopconfirmModule} from "ng-zorro-antd/popconfirm";
 import {LoginComponent} from './login/login.component';
 import {TokenInterceptor} from "./services/token.interceptor";
+import {TeamResultComponent} from './team-result/team-result.component';
 
 
 registerLocaleData(en);
@@ -72,6 +73,7 @@ registerLocaleData(en);
     RaceEventEditComponent,
     RaceEventEditorModalComponent,
     LoginComponent,
+    TeamResultComponent,
   ],
   imports: [
     BrowserModule,

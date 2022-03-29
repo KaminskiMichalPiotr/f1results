@@ -20,12 +20,14 @@ import {
   DriverResultEditorModalComponent
 } from "./driver-result-edit/driver-result-editor-modal/driver-result-editor-modal.component";
 import {LoginComponent} from "./login/login.component";
+import {TeamResultComponent} from "./team-result/team-result.component";
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: '/home'},
   {path: 'login', component: LoginComponent},
   {path: 'home', pathMatch: 'full', component: HomeComponent},
   {path: 'seasons', pathMatch: 'full', component: SeasonResultComponent},
+  {path: 'teams', pathMatch: 'full', component: TeamResultComponent},
   {path: '2020', pathMatch: 'full', component: SeasonResultComponent},
   {
     path: 'manage/drivers', component: DriverEditComponent, children: [
