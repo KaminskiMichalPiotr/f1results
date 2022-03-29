@@ -1,0 +1,23 @@
+<nz-table
+  #colSpanTable
+  [nzData]="dataa"
+  [nzPageSize]="24"
+  [nzScroll]="{ x: '150px' }"
+  nzBordered>
+  <thead>
+  <tr>
+    <th nzLeft nzWidth="50px">Pos.</th>
+    <th nzLeft nzWidth="140px">Team</th>
+    <th *ngFor="let item of [].constructor(10)" nzWidth="50px">RACE_TAG</th>
+    <th nzWidth="70px">Points</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of [].constructor(20); let i = index">
+    <td *ngIf="i%2 === 0" nzLeft rowspan="2">{{((i + 1) / 2) + 0.5}}</td>
+    <td *ngIf="i%2 === 0" nzLeft rowspan="2">TEAM_NAME</td>
+    <td *ngFor="let item of [].constructor(10)">RACE_POS</td>
+    <td *ngIf="i%2 === 0" rowspan="2">{{(i + 50) * (i + 1)}}</td>
+  </tr>
+  </tbody>
+</nz-table>

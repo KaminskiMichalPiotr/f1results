@@ -1,6 +1,6 @@
 package com.f1.f1results.security;
 
-import com.f1.f1results.objects.user.ApplicationUserService;
+import com.f1.f1results.entities.user.ApplicationUserService;
 import com.f1.f1results.security.jwt.JwtConfig;
 import com.f1.f1results.security.jwt.JwtTokenVerifierFilter;
 import com.f1.f1results.security.jwt.JwtUsernameAndPasswordFilter;

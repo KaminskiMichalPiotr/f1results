@@ -12,26 +12,5 @@ public class F1resultApplication {
         SpringApplication.run(F1resultApplication.class, args);
     }
 
-//	ApplicationUserService applicationUserService;
-//
-//	@Autowired
-//	public F1resultApplication(ApplicationUserService applicationUserService) {
-//		this.applicationUserService = applicationUserService;
-//	}
-//
-//	@Bean
-//	CommandLineRunner commandLineRunner() {
-//		return args -> {
-//			ApplicationUser user = new ApplicationUser(
-//					null,
-//					"krzysiu",
-//					"12345",
-//					true,
-//					true,
-//					true,
-//					true);
-//			this.applicationUserService.saveUser(user);
-//		};
-//	}
 
 }
