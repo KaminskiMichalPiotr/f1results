@@ -56,7 +56,7 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Resource[] resources = resourcePatternResolver.getResources("classpath:data/*.csv");
-        //readData();
+        readData();
     }
 
     public void readData() {

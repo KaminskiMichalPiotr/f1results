@@ -1,26 +1,26 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {SeasonResultComponent} from "./season-result/season-result.component";
-import {DriverEditComponent} from "./driver-edit/driver-edit.component";
-import {TeamEditComponent} from "./team-edit/team-edit.component";
-import {SeasonEditComponent} from "./season-edit/season-edit.component";
-import {NotFoundComponent} from "./not-found/not-found.component";
-import {HomeComponent} from "./home/home.component";
-import {DriverEditorModalComponent} from "./driver-edit/driver-editor-modal/driver-editor-modal.component";
-import {TeamEditorModalComponent} from "./team-edit/team-editor-modal/team-editor-modal.component";
-import {LocationEditComponent} from "./location-edit/location-edit.component";
-import {LocationEditorModalComponent} from "./location-edit/location-editor-modal/location-editor-modal.component";
-import {SeasonEditorModalComponent} from "./season-edit/season-editor-modal/season-editor-modal.component";
-import {DriverResultEditComponent} from "./driver-result-edit/driver-result-edit.component";
-import {RaceEventEditComponent} from "./race-event-edit/race-event-edit.component";
+import {SeasonResultComponent} from "./interfaces/user-interface/season-result/season-result.component";
+import {DriverEditComponent} from "./interfaces/admin-interface/driver-edit/driver-edit.component";
+import {TeamEditComponent} from "./interfaces/admin-interface/team-edit/team-edit.component";
+import {SeasonEditComponent} from "./interfaces/admin-interface/season-edit/season-edit.component";
+import {NotFoundComponent} from "./interfaces/shared-interface/not-found/not-found.component";
+import {HomeComponent} from "./interfaces/shared-interface/home/home.component";
+import {DriverEditorModalComponent} from "./interfaces/admin-interface/driver-edit/driver-editor-modal/driver-editor-modal.component";
+import {TeamEditorModalComponent} from "./interfaces/admin-interface/team-edit/team-editor-modal/team-editor-modal.component";
+import {LocationEditComponent} from "./interfaces/admin-interface/location-edit/location-edit.component";
+import {LocationEditorModalComponent} from "./interfaces/admin-interface/location-edit/location-editor-modal/location-editor-modal.component";
+import {SeasonEditorModalComponent} from "./interfaces/admin-interface/season-edit/season-editor-modal/season-editor-modal.component";
+import {DriverResultEditComponent} from "./interfaces/admin-interface/driver-result-edit/driver-result-edit.component";
+import {RaceEventEditComponent} from "./interfaces/admin-interface/race-event-edit/race-event-edit.component";
 import {
   RaceEventEditorModalComponent
-} from "./race-event-edit/race-event-editor-modal/race-event-editor-modal.component";
+} from "./interfaces/admin-interface/race-event-edit/race-event-editor-modal/race-event-editor-modal.component";
 import {
   DriverResultEditorModalComponent
-} from "./driver-result-edit/driver-result-editor-modal/driver-result-editor-modal.component";
-import {LoginComponent} from "./login/login.component";
-import {TeamResultComponent} from "./team-result/team-result.component";
+} from "./interfaces/admin-interface/driver-result-edit/driver-result-editor-modal/driver-result-editor-modal.component";
+import {LoginComponent} from "./interfaces/shared-interface/login/login.component";
+import {TeamResultComponent} from "./interfaces/user-interface/team-result/team-result.component";
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: '/home'},
