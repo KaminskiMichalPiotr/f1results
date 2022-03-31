@@ -59,4 +59,17 @@ public class SeasonController {
 
     }
 
+
+    @GetMapping(path = "seasonTeamResult/{year}")
+    public ResponseEntity<SeasonTeamResultDto> getSeasonTeamResult(@PathVariable(value = "year") int year) {
+        Optional<Season> seasonByYear = seasonService.findSeasonByYear(year);
+        if (seasonByYear.isPresent()) {
+            SeasonTeamResultDto seasonTeamResultDto = SeasonTeamResultDto.fromSeason(seasonByYear.get());
+            return ResponseEntity.ok(seasonTeamResultDto);
+        } else
+            return ResponseEntity.notFound().build();
+
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package com.f1.f1results.entities.driver;
 
+import com.f1.f1results.exceptions.IdNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,5 +35,12 @@ public class DriverService {
 
     public Optional<Driver> findByName(String name) {
         return driverRepository.findByDriver(name);
+    }
+
+    public void deleteDriverById(Long id) throws IdNotFoundException {
+        Driver driver = driverRepository.findById(id).orElseThrow(IdNotFoundException::new);
+        //TODO remove from teams, remove from driver results, remove driver
+
+
     }
 }

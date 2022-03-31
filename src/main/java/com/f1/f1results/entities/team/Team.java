@@ -24,6 +24,13 @@ import java.util.Set;
 })
 public class Team {
 
+    public Team(String teamName, String teamTag, String country) {
+        this.id = null;
+        this.teamName = teamName;
+        this.teamTag = teamTag;
+        this.country = country;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(updatable = false)

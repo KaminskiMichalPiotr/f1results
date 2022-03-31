@@ -18,6 +18,12 @@ import java.util.Set;
 @Table(name = "driver")
 public class Driver {
 
+    public Driver(String driver, String dateOfBirth, String nationality) {
+        this.driver = driver;
+        this.dateOfBirth = dateOfBirth;
+        this.nationality = nationality;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false)

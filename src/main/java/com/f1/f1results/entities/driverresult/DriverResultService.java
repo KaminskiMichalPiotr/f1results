@@ -53,12 +53,15 @@ public class DriverResultService {
         verifyUniquePositionAndUniqueDriver(driverResult, raceEvent);
         Driver driver = getDriver(driverResult);
         Team team = getTeam(driverResult);
+
         DriverResult resultToSave = new DriverResult(
                 null,
                 driver,
                 driverResult.getPosition(),
                 getPointsScoredByPosition(driverResult.getPosition(), RaceDistance.FULL),
-                team);
+                team,
+                driverResult.getSprintRacePosition(),
+                driverResult.hasFastestLap());
         resultToSave = driverResultRepository.save(resultToSave);
         raceEvent.addDriverResult(resultToSave);
         raceEventService.save(raceEvent);

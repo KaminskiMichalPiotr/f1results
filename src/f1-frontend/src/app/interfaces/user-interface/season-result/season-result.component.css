@@ -13,12 +13,16 @@
   font-weight: bold
 }
 
+.dnf {
+  background-color: #f0cdf7 !important;
+}
+
 .points {
   background-color: #d1ffd3 !important;
 
 }
 
 .outsidePoints {
-  background-color: #f0cdf7 !important;
+  background-color: #CFCFFF !important;
 }
 

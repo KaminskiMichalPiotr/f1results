@@ -1,6 +1,7 @@
 package com.f1.f1results.entities.raceevent;
 
 import com.f1.f1results.entities.driverresult.DriverResult;
+import com.f1.f1results.entities.driverresult.RaceDistance;
 import com.f1.f1results.entities.location.Location;
 import com.f1.f1results.entities.season.Season;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,7 +14,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -60,7 +61,6 @@ public class RaceEvent {
     @Column
     @NotNull(message = "Index of the race event must be provided")
     private int index;
-
     @OneToMany(
             cascade = CascadeType.MERGE
     )
@@ -69,7 +69,21 @@ public class RaceEvent {
             referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "race_event_id")
     )
-    private List<DriverResult> driverResults = Collections.emptyList();
+    private List<DriverResult> driverResults = new ArrayList<>();
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Race distance of the race event must be provided")
+    private RaceDistance raceDistance;
+
+    public RaceEvent(Location location, Season season, String dateOfRace, int index, RaceDistance raceDistance) {
+        this.id = null;
+        this.location = location;
+        this.season = season;
+        this.dateOfRace = dateOfRace;
+        this.index = index;
+        this.raceDistance = raceDistance;
+    }
 
 
     public void addDriverResult(DriverResult driverResult) {

@@ -22,6 +22,13 @@ import javax.validation.constraints.Size;
 @JsonIgnoreProperties("locationExistingInCalendars")
 public class Location {
 
+    public Location(String location, String locationTag, String country) {
+        this.id = null;
+        this.location = location;
+        this.locationTag = locationTag;
+        this.country = country;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, name = "id")

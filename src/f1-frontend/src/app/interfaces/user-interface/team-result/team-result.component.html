@@ -1,23 +1,66 @@
+<div nz-row>
+  <div [nzSpan]="6" nz-col>
+    <nz-select (ngModelChange)="seasonSelectEvent($event)" [formControl]="season" nzPlaceHolder="Season"
+               style="width: 100%;">
+      <nz-option *ngFor="let season of seasonSelector"
+                 [nzLabel]="season"
+                 [nzValue]="season">
+      </nz-option>
+    </nz-select>
+  </div>
+</div>
+<nz-divider></nz-divider>
+
+
 <nz-table
-  #colSpanTable
-  [nzData]="dataa"
-  [nzPageSize]="24"
+  #teamData
+  [nzData]="converted"
+  [nzPageSize]="converted.length"
   [nzScroll]="{ x: '150px' }"
-  nzBordered>
+  nzBordered
+  nzShowPagination="false"
+  nzSize="small">
   <thead>
   <tr>
-    <th nzLeft nzWidth="50px">Pos.</th>
+    <th nzLeft nzWidth="45px">Pos.</th>
     <th nzLeft nzWidth="140px">Team</th>
-    <th *ngFor="let item of [].constructor(10)" nzWidth="50px">RACE_TAG</th>
-    <th nzWidth="70px">Points</th>
+    <th *ngFor="let tag of locationsTags" nzAlign="center" nzWidth="50px">{{tag}}</th>
+    <th nzAlign="center" nzWidth="50px">Points</th>
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let item of [].constructor(20); let i = index">
-    <td *ngIf="i%2 === 0" nzLeft rowspan="2">{{((i + 1) / 2) + 0.5}}</td>
-    <td *ngIf="i%2 === 0" nzLeft rowspan="2">TEAM_NAME</td>
-    <td *ngFor="let item of [].constructor(10)">RACE_POS</td>
-    <td *ngIf="i%2 === 0" rowspan="2">{{(i + 50) * (i + 1)}}</td>
+  <tr *ngFor="let result of teamData.data; let i = index">
+    <ng-container *ngIf="i%2 === 0">
+      <td nzLeft rowspan="2">{{result.position}}</td>
+      <td nzLeft rowspan="2">{{extractTeamName(result)}}</td>
+      <td *ngFor="let tag of locationsTags" [ngClass]="{
+            'p1': getRacePosForDriver(result ,tag) === 1,
+            'p2': getRacePosForDriver(result ,tag) === 2,
+            'p3': getRacePosForDriver(result ,tag) === 3,
+            'dnf': getRacePosForDriver(result ,tag) === 'DNF',
+            'points': (getRacePosForDriver(result ,tag) > 3 && getRacePosForDriver(result ,tag) <= 10),
+            'outsidePoints': getRacePosForDriver(result ,tag) > 10}"
+          nzAlign="center">
+        {{getRacePosForDriver(result, tag)}}
+      </td>
+      <td nzAlign="center" rowspan="2">{{result.totalPoints}}</td>
+    </ng-container>
+    <ng-container *ngIf="i%2 !== 0">
+      <td *ngFor="let tag of locationsTags" [ngClass]="{
+            'p1': getRacePosForDriver(result ,tag) === 1,
+            'p2': getRacePosForDriver(result ,tag) === 2,
+            'p3': getRacePosForDriver(result ,tag) === 3,
+            'dnf': getRacePosForDriver(result ,tag) === 'DNF',
+            'points': (getRacePosForDriver(result ,tag) > 3 && getRacePosForDriver(result ,tag) <= 10),
+            'outsidePoints': getRacePosForDriver(result ,tag) > 10}"
+          nzAlign="center">
+        {{getRacePosForDriver(result, tag)}}
+      </td>
+    </ng-container>
   </tr>
   </tbody>
 </nz-table>
+
+
+<!--'points': (getRacePosForDriver(result ,tag) > 3 && getRacePosForDriver(result ,tag) <= 10),-->
+<!--'outsidePoints': getRacePosForDriver(result ,tag) > 10}"-->

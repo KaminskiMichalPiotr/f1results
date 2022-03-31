@@ -54,6 +54,7 @@ public class JwtTokenVerifierFilter extends OncePerRequestFilter {
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (JwtException e) {
+            //TODO Intercept Token error
             throw new IllegalStateException("Token isn't valid");
         }
         filterChain.doFilter(request, response);

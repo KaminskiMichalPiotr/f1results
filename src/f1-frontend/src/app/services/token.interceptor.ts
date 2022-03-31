@@ -7,11 +7,14 @@ import {JWTTOKEN} from "../shared/variables";
 export class TokenInterceptor implements HttpInterceptor {
 
   private static addToken(request: HttpRequest<any>, token: string) {
-    return request.clone({
-      setHeaders: {
-        'Authorization': `${token}`
-      }
-    });
+    if (request.method != 'GET')
+      return request.clone({
+        setHeaders: {
+          'Authorization': `${token}`
+        }
+      });
+    else
+      return request;
   }
 
   // private handle401Error(req: HttpRequest<any>, next: HttpHandler) {

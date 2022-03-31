@@ -83,6 +83,11 @@ export class DriverResultEditComponent extends ModalOpener<DriverResult> impleme
     return b.position - a.position;
   }
 
+  sortPoints(a: DriverResult, b: DriverResult) {
+    return b.position - a.position;
+  }
+
+
   override openEditModal(data: DriverResult) {
     this.modal.chosenRace.next(this.selectedRaceId)
     super.openEditModal(data);
@@ -111,5 +116,11 @@ export class DriverResultEditComponent extends ModalOpener<DriverResult> impleme
         data.sort((a, b) => a.index! - b.index!)
         this.raceSelector = data
       }))
+  }
+
+  extractPosition(position: number) {
+    if (position === 404)
+      return 'DNF'
+    return position;
   }
 }

@@ -43,9 +43,12 @@
         'p1': getPosition(result.positionInRace, i) === 1,
         'p2': getPosition(result.positionInRace, i) === 2,
         'p3': getPosition(result.positionInRace, i) === 3,
+        'dnf': getPosition(result.positionInRace, i) === 'DNF',
         'points': (getPosition(result.positionInRace, i) > 3 && getPosition(result.positionInRace, i) <= 10),
         'outsidePoints': getPosition(result.positionInRace, i) > 10}" nzAlign="center">
-        {{getPosition(result.positionInRace, i)}}</td>
+        {{getPosition(result.positionInRace, i)}}
+        <sup>{{getAdditionalInfo(result.positionInRace, i)}}</sup>
+      </td>
     </ng-container>
     <td nzAlign="center">{{result.totalPoints}}</td>
   </tr>
