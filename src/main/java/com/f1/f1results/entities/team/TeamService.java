@@ -28,10 +28,7 @@ public class TeamService {
     }
 
     public List<Team> addDriverToTeams(Driver driver, Set<Team> teams) {
-        List<Long> ids = teams.stream()
-                .map(Team::getId)
-                .collect(Collectors.toList());
-        List<Team> teamList = teamRepository.findAllById(ids);
+        List<Team> teamList = getTeams(teams);
         teamList.forEach(team -> team.addDriver(driver));
         return teamRepository.saveAll(teamList);
     }
@@ -46,5 +43,19 @@ public class TeamService {
 
     public List<Team> saveAll(List<Team> teams) {
         return teamRepository.saveAll(teams);
+    }
+
+    public List<Team> removeDriverFromTeams(Driver driver, Set<Team> teams) {
+        List<Team> teamList = getTeams(teams);
+        teamList.forEach(team -> team.removeDriver(driver));
+        return teamRepository.saveAll(teamList);
+    }
+
+    private List<Team> getTeams(Set<Team> teams) {
+        List<Long> ids = teams.stream()
+                .map(Team::getId)
+                .collect(Collectors.toList());
+        List<Team> teamList = teamRepository.findAllById(ids);
+        return teamList;
     }
 }

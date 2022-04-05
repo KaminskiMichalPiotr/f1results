@@ -12,5 +12,4 @@ public class F1resultApplication {
         SpringApplication.run(F1resultApplication.class, args);
     }
 
-
 }

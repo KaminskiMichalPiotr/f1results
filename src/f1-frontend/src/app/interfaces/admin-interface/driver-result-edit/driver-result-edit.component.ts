@@ -74,7 +74,7 @@ export class DriverResultEditComponent extends ModalOpener<DriverResult> impleme
 
   extractDriverName(driverResult: DriverResult): string {
     if (driverResult.driver !== undefined)
-      return driverResult.driver.driver
+      return driverResult.driver.name
     else
       return ''
   }

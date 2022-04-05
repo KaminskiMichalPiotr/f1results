@@ -37,7 +37,7 @@
   <tbody>
   <tr *ngFor="let result of seasonData.data">
     <td nzLeft>{{result.position}}</td>
-    <td nzLeft>{{result.driver.driver}}</td>
+    <td nzLeft>{{result.driver.name}}</td>
     <ng-container *ngFor="let locationTag of locationsTag; let i = index">
       <td [ngClass]="{
         'p1': getPosition(result.positionInRace, i) === 1,

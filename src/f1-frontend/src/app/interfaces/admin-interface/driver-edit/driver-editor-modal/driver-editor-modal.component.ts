@@ -77,7 +77,7 @@ export class DriverEditorModalComponent implements OnInit, OnDestroy {
   populateForm(driverChange: Driver) {
     this.driver = driverChange;
     let date = driverChange.dateOfBirth ? convertToDate(driverChange.dateOfBirth) : new Date();
-    this.form.controls['driver'].setValue(driverChange.driver);
+    this.form.controls['driver'].setValue(driverChange.name);
     this.form.controls['nationality'].setValue(driverChange.nationality);
     this.form.controls['dateOfBirth'].setValue(date);
     this.form.controls['teams'].setValue(driverChange.teams.map(team => {
@@ -94,7 +94,7 @@ export class DriverEditorModalComponent implements OnInit, OnDestroy {
   private extractDriver() {
     let date = formatDate(this.form.get('dateOfBirth').value, 'dd-MM-yyyy', 'en')
     let driver: Driver = {
-      driver: this.form.get('driver').value,
+      name: this.form.get('driver').value,
       id: this.router.url.includes('edit') ? this.driver.id : null,
       dateOfBirth: date,
       nationality: this.form.get('nationality').value,

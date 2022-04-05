@@ -16,6 +16,7 @@ import com.f1.f1results.entities.team.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Component;
@@ -31,11 +32,18 @@ import java.util.regex.Pattern;
 
 import static com.f1.f1results.entities.driverresult.PointsScoringSystem.getPointsScoredByPosition;
 
+/**
+ * Component responsible for optionally loading data from csv files
+ * when application is first bootstrap.
+ * File naming convention is XXXX.csv where XXXX represents f1 season year
+ * To use this component database must be empty and
+ *
+ * @shouldLoadData parameter in application.properties must be set as true
+ */
 @Component
 public class DataLoader implements CommandLineRunner {
 
     private static final int RESULT_STARTS_AT_Y = 4;
-
     private static final int LOCATIONS_STARTS_AT = 6;
     private static final int DRIVER_STARTS_AT = 1;
     private static final int TEAM_STARTS_AT = 3;
@@ -47,13 +55,14 @@ public class DataLoader implements CommandLineRunner {
     private final RaceEventService raceEventService;
     private final DriverResultService driverResultService;
     private final ResourcePatternResolver resourcePatternResolver;
+
     @Value("${dataloader.shouldLoadData}")
     private boolean shouldLoadData;
 
     @Autowired
-    public DataLoader(LocationService locationService, DriverService driverService,
-                      TeamService teamService, SeasonService seasonService,
-                      RaceEventService raceEventService, DriverResultService driverResultService,
+    public DataLoader(@Lazy LocationService locationService, @Lazy DriverService driverService,
+                      @Lazy TeamService teamService, @Lazy SeasonService seasonService,
+                      @Lazy RaceEventService raceEventService, @Lazy DriverResultService driverResultService,
                       ResourcePatternResolver resourcePatternResolver) {
         this.locationService = locationService;
         this.driverService = driverService;
@@ -67,27 +76,42 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (shouldLoadData) {
-            Resource[] resources = resourcePatternResolver.getResources("classpath:data/*.csv");
-            for (Resource r : resources) {
-                readData(r.getFile().getAbsolutePath());
+            if (dataBaseIsEmpty()) {
+                Resource[] resources = resourcePatternResolver.getResources("classpath:data/*.csv");
+                for (Resource r : resources) {
+                    loadData(r.getFile().getAbsolutePath());
+                }
             }
         }
     }
 
-    public void readData(String path) {
+    private boolean dataBaseIsEmpty() {
+        return (locationService.getLocations().isEmpty() &&
+                driverService.getDrivers().isEmpty() &&
+                teamService.getTeams().isEmpty() &&
+                seasonService.getSeasons().isEmpty() &&
+                raceEventService.getRaceEvents().isEmpty() &&
+                driverResultService.getDriverResults().isEmpty());
+
+    }
+
+    private void loadData(String path) {
 
         List<List<String>> records = readDataFromFile(path);
         List<Location> locations = extractOrCreateLocations(records);
         List<Driver> drivers = new ArrayList<>();
         List<Team> teams = new ArrayList<>();
         extractOrCreateDriversAndTeams(drivers, teams, records);
-
-
-        Season season = createSeason(Integer.parseInt(path.substring(path.length() - 8, path.length() - 4)));
+        Season season = createSeason(getYearFromFilePath(path));
         List<RaceEvent> raceEvents = createRaceEvents(locations, season, records);
         createDriverResults(raceEvents, records, drivers, teams);
 
     }
+
+    private int getYearFromFilePath(String path) {
+        return Integer.parseInt(path.substring(path.length() - 8, path.length() - 4));
+    }
+
 
     private void createDriverResults(List<RaceEvent> raceEvents,
                                      List<List<String>> records,
@@ -114,7 +138,9 @@ public class DataLoader implements CommandLineRunner {
                             0,
                             teams.get(i)
                     );
-                    driverResult.setPoints(getPointsScoredByPosition(driverResult, raceEvents.get(j).getRaceDistance()));
+                    driverResult.setPoints(getPointsScoredByPosition(
+                            driverResult,
+                            raceEvents.get(j).getRaceDistance()));
                     save = driverResultService.save(driverResult);
                     raceEvents.get(j).addDriverResult(save);
                     raceEventService.save(raceEvents.get(j));
@@ -128,7 +154,9 @@ public class DataLoader implements CommandLineRunner {
                             0,
                             teams.get(i)
                     );
-                    driverResult.setPoints(getPointsScoredByPosition(driverResult, raceEvents.get(j).getRaceDistance()));
+                    driverResult.setPoints(getPointsScoredByPosition(
+                            driverResult,
+                            raceEvents.get(j).getRaceDistance()));
                     save = driverResultService.save(driverResult);
                     raceEvents.get(j).addDriverResult(save);
                     raceEventService.save(raceEvents.get(j));
@@ -227,26 +255,26 @@ public class DataLoader implements CommandLineRunner {
             teamRecords.set(i, teamRecords.get(i).subList(TEAM_STARTS_AT, TEAM_STARTS_AT + 3));
         }
         teamRecords.forEach(
-                row -> {
-                    String teamName = row.get(0);
-                    String teamTag = row.get(1);
-                    String country = row.get(2);
-                    Optional<Team> team = teamService.findByTag(teamTag);
-                    if (team.isPresent()) {
-                        teams.add(team.get());
-                    } else {
-                        //create driver
-                        Team teamToSave = new Team(
-                                null,
-                                teamName,
-                                teamTag,
-                                new HashSet<>(),
-                                country);
-                        teamToSave = teamService.save(teamToSave);
-                        teams.add(teamToSave);
-                    }
-                }
+                row -> findOrAddNewTeam(teams, row)
         );
+    }
+
+    private void findOrAddNewTeam(List<Team> teams, List<String> row) {
+        String teamName = row.get(0);
+        String teamTag = row.get(1);
+        String country = row.get(2);
+        Optional<Team> team = teamService.findByTag(teamTag);
+        if (team.isPresent()) {
+            teams.add(team.get());
+        } else {
+            //create driver
+            Team teamToSave = new Team(
+                    teamName,
+                    teamTag,
+                    country);
+            teamToSave = teamService.save(teamToSave);
+            teams.add(teamToSave);
+        }
     }
 
     private void extractDrivers(List<Driver> drivers, List<List<String>> records) {
@@ -255,23 +283,22 @@ public class DataLoader implements CommandLineRunner {
             driversRecords.set(i, driversRecords.get(i).subList(DRIVER_STARTS_AT, DRIVER_STARTS_AT + 2));
         }
         driversRecords.forEach(
-                row -> {
-                    String country = row.get(0);
-                    String name = row.get(1);
-                    Optional<Driver> driver = driverService.findByName(name);
-                    if (driver.isPresent()) {
-                        drivers.add(driver.get());
-                    } else {
-                        //create driver
-                        Driver toSave = Driver.builder()
-                                .driver(name)
-                                .nationality(country)
-                                .build();
-                        toSave = driverService.save(toSave);
-                        drivers.add(toSave);
-                    }
-                }
+                row -> findOrAddNewDriver(drivers, row)
         );
+    }
+
+    private void findOrAddNewDriver(List<Driver> drivers, List<String> row) {
+        String country = row.get(0);
+        String name = row.get(1);
+        Optional<Driver> driver = driverService.findByName(name);
+        if (driver.isPresent()) {
+            drivers.add(driver.get());
+        } else {
+            //create driver
+            Driver toSave = new Driver(name, null, country);
+            toSave = driverService.save(toSave);
+            drivers.add(toSave);
+        }
     }
 
     private List<Location> extractOrCreateLocations(List<List<String>> records) {

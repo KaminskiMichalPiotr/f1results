@@ -14,8 +14,8 @@ import java.util.List;
 public class DriverController {
 
 
-    DriverService driverService;
-    TeamService teamService;
+    private final DriverService driverService;
+    private final TeamService teamService;
 
     @Autowired
     public DriverController(DriverService driverService, TeamService teamService) {

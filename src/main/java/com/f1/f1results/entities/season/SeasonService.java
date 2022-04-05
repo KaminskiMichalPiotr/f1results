@@ -40,4 +40,8 @@ public class SeasonService {
                         new IncorrectParamException("Season year:" + season.getSeasonYear() + " is already taken"));
         return this.seasonRepository.save(season);
     }
+
+    public List<Season> getSeasons() {
+        return seasonRepository.findAll();
+    }
 }

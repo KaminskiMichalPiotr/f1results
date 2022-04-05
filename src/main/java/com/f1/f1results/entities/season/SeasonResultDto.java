@@ -90,8 +90,6 @@ public class SeasonResultDto {
         inList.totalPoints += driverResult.getPoints();
     }
 
-    //TODO: Refactor
-
     private static void addNewDriverAndResult(List<DriverResultDto> results, RaceEvent raceEvent, DriverResult driverResult) {
         DriverResultDto resultDto = new DriverResultDto();
         resultDto.setDriver(driverResult.getDriver());

@@ -25,7 +25,7 @@ public class RaceEventController {
 
     @GetMapping()
     public ResponseEntity<List<RaceEvent>> getRaceEvents() {
-        return ResponseEntity.ok(raceEventService.getAll());
+        return ResponseEntity.ok(raceEventService.getRaceEvents());
     }
 
     @SuppressWarnings("OptionalIsPresent")

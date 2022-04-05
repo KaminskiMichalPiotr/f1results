@@ -30,7 +30,7 @@ public class RaceEventService {
         return raceEventRepository.save(raceEvent);
     }
 
-    public List<RaceEvent> getAll() {
+    public List<RaceEvent> getRaceEvents() {
         return raceEventRepository.findAll();
     }
 
@@ -57,7 +57,6 @@ public class RaceEventService {
                 return raceEventRepository.save(race);
             }
         }
-        //TODO: throw error, check location id is present, check index not taken
         return null;
     }
 }

@@ -40,7 +40,6 @@ public class Team {
     @NotBlank(message = "Team name cannot be empty!")
     private String teamName;
 
-
     //TODO: tag min max 3
     @Column(name = "team_tag")
     @NotBlank(message = "Team tag cannot be empty!")

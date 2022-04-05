@@ -1,6 +1,7 @@
 package com.f1.f1results.security;
 
 import com.f1.f1results.entities.user.ApplicationUserService;
+import com.f1.f1results.security.jwt.FilterChainExceptionHandler;
 import com.f1.f1results.security.jwt.JwtConfig;
 import com.f1.f1results.security.jwt.JwtTokenVerifierFilter;
 import com.f1.f1results.security.jwt.JwtUsernameAndPasswordFilter;
@@ -39,16 +40,24 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         this.jwtConfig = jwtConfig;
     }
 
+
+    //TODO: add csrf configuration
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors()
                 .and()
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilter(new JwtUsernameAndPasswordFilter(authenticationManager(), jwtConfig))
-                .addFilterAfter(new JwtTokenVerifierFilter(jwtConfig), JwtUsernameAndPasswordFilter.class)
+                .addFilter(
+                        new JwtUsernameAndPasswordFilter(authenticationManager(),
+                                jwtConfig))
+                .addFilterBefore(new FilterChainExceptionHandler(), JwtUsernameAndPasswordFilter.class)
+                .addFilterAfter(
+                        new JwtTokenVerifierFilter(jwtConfig),
+                        JwtUsernameAndPasswordFilter.class)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .antMatchers(HttpMethod.POST)

@@ -6,7 +6,7 @@
         <nz-form-label [nzSpan]="6" nzRequired>Driver</nz-form-label>
         <nz-form-control [nzErrorTip]="driverErrorTpl" [nzSpan]="18" nzHasFeedback>
           <nz-select formControlName="driver" nzAllowClear nzPlaceHolder="Select a driver" nzShowSearch>
-            <nz-option *ngFor="let driver of driversToSelect" [nzLabel]="driver.driver"
+            <nz-option *ngFor="let driver of driversToSelect" [nzLabel]="driver.name"
                        [nzValue]="driver.id"></nz-option>
           </nz-select>
           <ng-template #driverErrorTpl let-control>
