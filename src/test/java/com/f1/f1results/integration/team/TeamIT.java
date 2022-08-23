@@ -1,4 +1,4 @@
-package com.f1.f1results.integration;
+package com.f1.f1results.integration.team;
 
 import com.f1.f1results.entities.team.Team;
 import com.f1.f1results.entities.team.TeamRepository;

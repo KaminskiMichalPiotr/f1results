@@ -171,7 +171,6 @@ class DriverResultServiceTest {
                 RACE_INDEX,
                 new ArrayList<>(),
                 RaceDistance.FULL);
-
     }
 
 }
