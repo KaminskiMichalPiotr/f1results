@@ -38,9 +38,6 @@ public class SeasonService {
         Optional<Season> bySeasonYear = seasonRepository.findBySeasonYear(season.getSeasonYear());
         if (bySeasonYear.isPresent())
             throw new IncorrectParamException("Season year:" + season.getSeasonYear() + " is already taken");
-//        Season bySeasonYear = seasonRepository.findBySeasonYear(season.getSeasonYear())
-//                .orElseThrow(() ->
-//                        new IncorrectParamException("Season year:" + season.getSeasonYear() + " is already taken"));
         return this.seasonRepository.save(season);
     }
 
