@@ -14,8 +14,8 @@ import java.util.List;
 public class DriverController {
 
 
-    DriverService driverService;
-    TeamService teamService;
+    private final DriverService driverService;
+    private final TeamService teamService;
 
     @Autowired
     public DriverController(DriverService driverService, TeamService teamService) {
@@ -39,4 +39,13 @@ public class DriverController {
         teamService.addDriverToTeams(save, driver.getTeams());
         return ResponseEntity.status(HttpStatus.OK).body(save);
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteDriverById(@PathVariable Long id) {
+
+        driverService.deleteDriverById(id);
+
+        return ResponseEntity.accepted().build();
+    }
+
 }

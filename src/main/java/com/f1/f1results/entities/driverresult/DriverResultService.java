@@ -53,12 +53,15 @@ public class DriverResultService {
         verifyUniquePositionAndUniqueDriver(driverResult, raceEvent);
         Driver driver = getDriver(driverResult);
         Team team = getTeam(driverResult);
+
         DriverResult resultToSave = new DriverResult(
                 null,
                 driver,
                 driverResult.getPosition(),
                 getPointsScoredByPosition(driverResult.getPosition(), RaceDistance.FULL),
-                team);
+                team,
+                driverResult.getSprintRacePosition(),
+                driverResult.hasFastestLap());
         resultToSave = driverResultRepository.save(resultToSave);
         raceEvent.addDriverResult(resultToSave);
         raceEventService.save(raceEvent);
@@ -71,7 +74,7 @@ public class DriverResultService {
         if (driverResults.stream().anyMatch(result -> result.getPosition() == driverResult.getPosition()))
             throw new IncorrectParamException("Position " + driverResult.getPosition() + " is already taken!");
         if (driverResults.stream().anyMatch(result -> Objects.equals(result.getDriver().getId(), driverResult.getDriver().getId())))
-            throw new IncorrectParamException("Driver " + driverResult.getDriver().getDriver() + " already has result in the race!");
+            throw new IncorrectParamException("Driver " + driverResult.getDriver().getName() + " already has result in the race!");
     }
 
     private Team getTeam(DriverResult driverResult) throws IncorrectParamException {
@@ -93,5 +96,17 @@ public class DriverResultService {
         if (raceEvent.isEmpty())
             throw new IncorrectParamException("Race id is incorrect");
         return raceEvent.get();
+    }
+
+    public List<DriverResult> getDriverResultByDriver(Driver driver) {
+        return driverResultRepository.findDriverResultsByDriver(driver);
+    }
+
+    public void deleteDriverResults(List<DriverResult> driverResults) {
+        driverResultRepository.deleteAll(driverResults);
+    }
+
+    public List<DriverResult> getDriverResults() {
+        return driverResultRepository.findAll();
     }
 }

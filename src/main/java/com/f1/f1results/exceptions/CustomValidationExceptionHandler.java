@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class CustomValidationExceptionHandler extends ResponseEntityExceptionHandler {
 
-
     // error handle for @Valid
     @Override
     protected @NonNull ResponseEntity<Object> handleMethodArgumentNotValid

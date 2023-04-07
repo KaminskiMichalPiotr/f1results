@@ -74,7 +74,7 @@ export class DriverResultEditComponent extends ModalOpener<DriverResult> impleme
 
   extractDriverName(driverResult: DriverResult): string {
     if (driverResult.driver !== undefined)
-      return driverResult.driver.driver
+      return driverResult.driver.name
     else
       return ''
   }
@@ -82,6 +82,11 @@ export class DriverResultEditComponent extends ModalOpener<DriverResult> impleme
   sortPosition(a: DriverResult, b: DriverResult) {
     return b.position - a.position;
   }
+
+  sortPoints(a: DriverResult, b: DriverResult) {
+    return b.position - a.position;
+  }
+
 
   override openEditModal(data: DriverResult) {
     this.modal.chosenRace.next(this.selectedRaceId)
@@ -111,5 +116,11 @@ export class DriverResultEditComponent extends ModalOpener<DriverResult> impleme
         data.sort((a, b) => a.index! - b.index!)
         this.raceSelector = data
       }))
+  }
+
+  extractPosition(position: number) {
+    if (position === 404)
+      return 'DNF'
+    return position;
   }
 }

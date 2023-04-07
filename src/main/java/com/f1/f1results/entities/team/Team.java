@@ -24,6 +24,13 @@ import java.util.Set;
 })
 public class Team {
 
+    public Team(String teamName, String teamTag, String country) {
+        this.id = null;
+        this.teamName = teamName;
+        this.teamTag = teamTag;
+        this.country = country;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(updatable = false)
@@ -32,7 +39,6 @@ public class Team {
     @Column(name = "team_name")
     @NotBlank(message = "Team name cannot be empty!")
     private String teamName;
-
 
     //TODO: tag min max 3
     @Column(name = "team_tag")

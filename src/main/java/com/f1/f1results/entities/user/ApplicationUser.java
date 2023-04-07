@@ -20,6 +20,16 @@ import java.util.Collections;
 @Table(name = "application_user")
 public class ApplicationUser implements UserDetails {
 
+    public ApplicationUser(String username, String password) {
+        this.username = username;
+        this.password = password;
+        isAccountNonExpired = true;
+        isAccountNonLocked = true;
+        isCredentialsNonExpired = true;
+        isEnabled = true;
+        id = null;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(updatable = false)

@@ -69,7 +69,7 @@ class DriverResultServiceTest {
 
     @Test
     void canSave() {
-        DriverResult driverResult = new DriverResult(null, null, 5, 5, null);
+        DriverResult driverResult = new DriverResult(null, null, 5, 5, null, 0, false);
         underTest.save(driverResult);
         verify(driverResultRepository).save(driverResult);
     }
@@ -121,7 +121,7 @@ class DriverResultServiceTest {
     //Position previously taken
     @Test
     void cantCreateDriverResultWithWrongPosition() {
-        raceEvent.addDriverResult(new DriverResult(null, new Driver(), POSITION, 5, new Team()));
+        raceEvent.addDriverResult(new DriverResult(null, new Driver(), POSITION, 5, new Team(), 0, false));
         when(raceEventService.getById(RACE_ID)).thenReturn(Optional.of(raceEvent));
         when(driverService.getById(RACE_ID)).thenReturn(Optional.of(driver));
         when(teamService.getById(TEAM_ID)).thenReturn(Optional.of(team));
@@ -132,7 +132,7 @@ class DriverResultServiceTest {
     //Driver already has result
     @Test
     void cantCreateDriverResultWithNotUniqueDriver() {
-        raceEvent.addDriverResult(new DriverResult(null, driver, POSITION + 1, 5, new Team()));
+        raceEvent.addDriverResult(new DriverResult(null, driver, POSITION + 1, 5, new Team(), 0, false));
         when(raceEventService.getById(RACE_ID)).thenReturn(Optional.of(raceEvent));
         when(driverService.getById(RACE_ID)).thenReturn(Optional.of(driver));
         when(teamService.getById(TEAM_ID)).thenReturn(Optional.of(team));
@@ -159,7 +159,9 @@ class DriverResultServiceTest {
                 driver,
                 POSITION,
                 5,
-                team
+                team,
+                0,
+                false
         );
         raceEvent = new RaceEvent(
                 RACE_ID,
@@ -167,8 +169,8 @@ class DriverResultServiceTest {
                 null,
                 "05-05-1955",
                 RACE_INDEX,
-                new ArrayList<>());
-
+                new ArrayList<>(),
+                RaceDistance.FULL);
     }
 
 }

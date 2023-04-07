@@ -1,9 +1,10 @@
-package com.f1.f1results.integration;
+package com.f1.f1results.integration.team;
 
 import com.f1.f1results.entities.team.Team;
 import com.f1.f1results.entities.team.TeamRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
 
-import static com.f1.f1results.integration.RetrieveJwtToken.retrieveJwtToken;
+import static com.f1.f1results.integration.RetrieveJwtTokenAndHeaders.retrieveJwtToken;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -28,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class TeamIT {
 
 
-    private String token;
+    private static String token;
 
     @Autowired
     private MockMvc mockMvc;
@@ -39,9 +40,13 @@ public class TeamIT {
     @Autowired
     private TeamRepository teamRepository;
 
+    @BeforeAll
+    static void getToken() throws Exception {
+        token = retrieveJwtToken();
+    }
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         Team team = new Team(
                 null,
                 "Team",
@@ -49,7 +54,6 @@ public class TeamIT {
                 Collections.emptySet(),
                 "Country");
         teamRepository.save(team);
-        token = retrieveJwtToken(mockMvc, objectMapper);
     }
 
     @AfterEach
@@ -84,9 +88,7 @@ public class TeamIT {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(team)))
                 .andExpect(status().isUnprocessableEntity());
-
     }
-
 
     @Test
     void shouldNotCreateTeamWithoutValidTag() throws Exception {
@@ -98,9 +100,7 @@ public class TeamIT {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(team)))
                 .andExpect(status().isUnprocessableEntity());
-
     }
-
 
     @Test
     void shouldNotCreateTeamWithoutValidCountry() throws Exception {
@@ -112,7 +112,6 @@ public class TeamIT {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(team)))
                 .andExpect(status().isUnprocessableEntity());
-
     }
 
     @Test

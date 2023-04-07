@@ -1,7 +1,10 @@
 package com.f1.f1results.entities.driver;
 
 import com.f1.f1results.entities.team.Team;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -9,7 +12,6 @@ import javax.validation.constraints.Pattern;
 import java.util.HashSet;
 import java.util.Set;
 
-@Builder
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,6 +20,12 @@ import java.util.Set;
 @Table(name = "driver")
 public class Driver {
 
+    public Driver(String name, String dateOfBirth, String nationality) {
+        this.name = name;
+        this.dateOfBirth = dateOfBirth;
+        this.nationality = nationality;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false)
@@ -25,7 +33,7 @@ public class Driver {
 
     @Column
     @NotBlank(message = "Please provide driver name and surname")
-    private String driver;
+    private String name;
 
     @Column
     @Pattern(regexp = "[0-3][0-9]-[0-1][0-9]-[1-2][0-9][0-9][0-9]",
@@ -44,7 +52,7 @@ public class Driver {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Driver driver1 = (Driver) o;
-        return driver.equals(driver1.driver) && dateOfBirth.equals(driver1.dateOfBirth) && nationality.equals(driver1.nationality);
+        return name.equals(driver1.name) && dateOfBirth.equals(driver1.dateOfBirth) && nationality.equals(driver1.nationality);
     }
 
 }

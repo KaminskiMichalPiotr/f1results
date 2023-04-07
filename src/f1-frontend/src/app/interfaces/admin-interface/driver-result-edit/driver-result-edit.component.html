@@ -44,7 +44,7 @@
   </thead>
   <tbody>
   <tr (click)="openEditModal(data)" *ngFor="let data of basicTable.data" style="cursor: pointer">
-    <td>{{data.position}}</td>
+    <td>{{extractPosition(data.position)}}</td>
     <td>{{extractDriverName(data)}}</td>
     <td>{{extractTeamName(data)}}</td>
     <td>{{data.points}}</td>

@@ -1,5 +1,6 @@
 package com.f1.f1results.entities.raceevent;
 
+import com.f1.f1results.entities.driverresult.RaceDistance;
 import com.f1.f1results.entities.location.Location;
 import com.f1.f1results.entities.location.LocationService;
 import com.f1.f1results.entities.season.Season;
@@ -8,7 +9,6 @@ import com.f1.f1results.exceptions.IncorrectParamException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +30,7 @@ public class RaceEventService {
         return raceEventRepository.save(raceEvent);
     }
 
-    public List<RaceEvent> getAll() {
+    public List<RaceEvent> getRaceEvents() {
         return raceEventRepository.findAll();
     }
 
@@ -48,17 +48,15 @@ public class RaceEventService {
                 throw new IncorrectParamException("Race event index " + raceEvent.getIndex() + " already exists");
             } else {
                 RaceEvent race = new RaceEvent(
-                        null,
                         location.get(),
                         season.get(),
                         raceEvent.getDateOfRace(),
                         raceEvent.getIndex(),
-                        Collections.emptyList()
+                        RaceDistance.FULL
                 );
                 return raceEventRepository.save(race);
             }
         }
-        //TODO: throw error, check location id is present, check index not taken
         return null;
     }
 }

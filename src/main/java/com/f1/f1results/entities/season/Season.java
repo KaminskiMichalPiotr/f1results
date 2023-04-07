@@ -22,6 +22,11 @@ import java.util.List;
 @Table(name = "season", uniqueConstraints = @UniqueConstraint(columnNames = "season_year", name = "season_year_unique"))
 public class Season {
 
+    public Season(int seasonYear) {
+        this.id = null;
+        this.seasonYear = seasonYear;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false)

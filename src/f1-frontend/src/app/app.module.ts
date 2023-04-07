@@ -24,15 +24,23 @@ import {NotFoundComponent} from './interfaces/shared-interface/not-found/not-fou
 import {NzResultModule} from "ng-zorro-antd/result";
 import {HomeComponent} from './interfaces/shared-interface/home/home.component';
 import {NzSpinModule} from "ng-zorro-antd/spin";
-import {DriverEditorModalComponent} from './interfaces/admin-interface/driver-edit/driver-editor-modal/driver-editor-modal.component';
+import {
+  DriverEditorModalComponent
+} from './interfaces/admin-interface/driver-edit/driver-editor-modal/driver-editor-modal.component';
 import {NzSelectModule} from "ng-zorro-antd/select";
 import {NzFormModule} from "ng-zorro-antd/form";
 import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
-import {TeamEditorModalComponent} from './interfaces/admin-interface/team-edit/team-editor-modal/team-editor-modal.component';
+import {
+  TeamEditorModalComponent
+} from './interfaces/admin-interface/team-edit/team-editor-modal/team-editor-modal.component';
 import {NzInputModule} from "ng-zorro-antd/input";
 import {LocationEditComponent} from './interfaces/admin-interface/location-edit/location-edit.component';
-import {LocationEditorModalComponent} from './interfaces/admin-interface/location-edit/location-editor-modal/location-editor-modal.component';
-import {SeasonEditorModalComponent} from './interfaces/admin-interface/season-edit/season-editor-modal/season-editor-modal.component';
+import {
+  LocationEditorModalComponent
+} from './interfaces/admin-interface/location-edit/location-editor-modal/location-editor-modal.component';
+import {
+  SeasonEditorModalComponent
+} from './interfaces/admin-interface/season-edit/season-editor-modal/season-editor-modal.component';
 import {NzInputNumberModule} from "ng-zorro-antd/input-number";
 import {DriverResultEditComponent} from './interfaces/admin-interface/driver-result-edit/driver-result-edit.component';
 import {

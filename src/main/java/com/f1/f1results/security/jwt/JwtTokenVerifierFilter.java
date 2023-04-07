@@ -1,5 +1,6 @@
 package com.f1.f1results.security.jwt;
 
+import com.f1.f1results.exceptions.TokenValidationException;
 import com.google.common.base.Strings;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -54,7 +55,7 @@ public class JwtTokenVerifierFilter extends OncePerRequestFilter {
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (JwtException e) {
-            throw new IllegalStateException("Token isn't valid");
+            throw new TokenValidationException();
         }
         filterChain.doFilter(request, response);
     }

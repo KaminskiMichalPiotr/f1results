@@ -30,10 +30,33 @@ export class SeasonResultComponent implements OnInit {
     });
   }
 
-  getPosition(positionInRace: Map<string, number>, index: number) {
-    let number = positionInRace.get(this.seasonResult.locationsTags[index]);
-    return number ? number : '-';
+  private static extractPos(pos: string) {
+    return pos.substring(0, pos.indexOf("<"));
+  }
 
+  private static extractAdditionalInfo(info: string) {
+    return info.substring(info.indexOf("<") + 1, info.indexOf(">"));
+  }
+
+  getPosition(positionInRace: Map<string, string>, index: number) {
+    let number = positionInRace.get(this.seasonResult.locationsTags[index]);
+    let pos;
+    if (number) {
+      pos = Number(SeasonResultComponent.extractPos(number));
+      if (pos !== 404)
+        return pos;
+      else
+        return 'DNF'
+    }
+    return '-';
+
+  }
+
+  getAdditionalInfo(positionInRace: Map<string, string>, index: number) {
+    let number = positionInRace.get(this.seasonResult.locationsTags[index]);
+    if (number)
+      return SeasonResultComponent.extractAdditionalInfo(number);
+    return '';
   }
 
   seasonSelectEvent(year: number) {
@@ -44,6 +67,7 @@ export class SeasonResultComponent implements OnInit {
       this.fixMap();
     })
   }
+
 
   sortPosition(a: DriverResultDto, b: DriverResultDto) {
     return b.position - a.position;
@@ -57,7 +81,7 @@ export class SeasonResultComponent implements OnInit {
     this.driverResults.forEach(
       driverResult => {
         const result = Object.entries(driverResult.positionInRace);
-        let map = new Map<string, number>();
+        let map = new Map<string, string>();
         result.forEach(
           r => map.set(r[0], r[1])
         )
@@ -66,6 +90,4 @@ export class SeasonResultComponent implements OnInit {
       }
     )
   }
-
-
 }

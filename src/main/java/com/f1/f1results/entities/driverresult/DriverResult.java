@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -19,6 +18,13 @@ import javax.validation.constraints.NotNull;
 @Entity(name = "DriverResult")
 @Table(name = "driver_result")
 public class DriverResult {
+
+    @Column
+    @NotNull(message = "Position cannot be empty")
+    @Min(value = 1, message = "Position should be in range 1-30")
+    private int position;
+    @Column
+    private int sprintRacePosition = 0;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,14 +39,9 @@ public class DriverResult {
             foreignKey = @ForeignKey(name = "driver_fk")
     )
     private Driver driver;
-
     @Column
-    @NotNull(message = "Position cannot be empty")
-    @Min(value = 1, message = "Position should be in range 1-24")
-    @Max(value = 24, message = "Position should be in range 1-24")
-    private int position;
+    private boolean fastestLap = false;
 
-    //TODO: Calculate points
     @Column
     private double points;
 
@@ -52,5 +53,36 @@ public class DriverResult {
             foreignKey = @ForeignKey(name = "team_fk")
     )
     private Team team;
+
+    public DriverResult(Driver driver, int position, double points, Team team) {
+        this.id = null;
+        this.driver = driver;
+        this.position = position;
+        this.points = points;
+        this.team = team;
+    }
+
+    public DriverResult(int position, boolean fastestLap, Driver driver, int sprintRacePosition, double points, Team team) {
+        this.position = position;
+        this.fastestLap = fastestLap;
+        this.driver = driver;
+        this.sprintRacePosition = sprintRacePosition;
+        this.points = points;
+        this.team = team;
+    }
+
+    public DriverResult(Long id, Driver driver, int position, double points, Team team, int sprintRacePosition, boolean fastestLap) {
+        this.position = position;
+        this.sprintRacePosition = sprintRacePosition;
+        this.id = id;
+        this.driver = driver;
+        this.fastestLap = fastestLap;
+        this.points = points;
+        this.team = team;
+    }
+
+    public boolean hasFastestLap() {
+        return this.fastestLap;
+    }
 
 }
